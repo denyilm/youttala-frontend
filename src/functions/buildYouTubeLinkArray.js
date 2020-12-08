@@ -77,6 +77,7 @@ function buildYouTubeLinkArray(query, idArr, database){
           uTubeLink = buildLink(id,time)
           theList.push({
             'youtubeLink': uTubeLink,
+            'id': id,
             'time': time,
             'firstTimeIndex': firstTimeIndex,
             'lineIndex': i,

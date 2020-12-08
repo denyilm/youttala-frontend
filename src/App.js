@@ -6,6 +6,7 @@ import subtitleService from './services/subtitles'
 import contains from './functions/contains'
 import buildYouTubeLinkArray from './functions/buildYouTubeLinkArray'
 import tillTheNextStamp from './functions/tillTheNextStamp'
+import YouTube from 'react-youtube'
 
 const App = () => {
   const [subtitles, setSubtitles] = useState([])
@@ -13,12 +14,16 @@ const App = () => {
   const [youTubeLinks, setYouTubeLinks] = useState([])
   const [playingVideo, setPlayingVideo] = useState('https://www.youtube.com/embed/RGOj5yH7evk')
   const [videoIndex, setVideoIndex] = useState(0)
-  const [currentVideoId, setCurrentVideoId] = useState('')
+  const [currentVideoId, setCurrentVideoId] = useState('5bfx6BNufdE')
   const [wholeText, setWholeText] = useState([]) //the text part of the playing subtitle
   const [shownSubtitles, setShownSubtitles] = useState(null)
   const [intervalTime, setIntervalTime] = useState(0)
   const [showSubtitle ,setShowSubtitle] = useState(false)
   const [showStats, setShowStats] = useState(false)
+  const [playingVideoTime, setPlayingVideoTime] = useState(0)
+  const [width, setWidth] = useState('640')
+  const [timeFromYouTube, setTimeFromYouTube] = useState(null)
+  const [firstTimeIndex, setFirstTimeIndex] = useState(0)
 
   useEffect(() => {
     subtitleService
@@ -58,22 +63,15 @@ const App = () => {
       setVideoIndex(0)
       let videoId = youTubeLinkList[0].youtubeLink.substring(30,41)
       setCurrentVideoId(videoId)
+      setPlayingVideoTime(youTubeLinkList[0].time)
       let currentWholeText = youTubeLinkList[0].wholeText
       setWholeText(currentWholeText)
       let time = youTubeLinkList[0].time
       //console.log(time)
       let firstTimeIndex = youTubeLinkList[0].firstTimeIndex
+      setFirstTimeIndex(firstTimeIndex)
       //console.log(firstTimeIndex)
-      let theTextBetweenTwoStamps = tillTheNextStamp(time, firstTimeIndex, currentWholeText)
-      //console.log(theTextBetweenTwoStamps)
-      /*
-      setShownSubtitles(theTextBetweenTwoStamps.text)
-      setShowSubtitle(true)
-      let timeOut = theTextBetweenTwoStamps.timeDifference*1000 + 4000
-      setTimeout(() => {
-        setShowSubtitle(false)
-      }, timeOut)
-      */
+      setShowSubtitle(false)
       setShowStats(true)
     } catch (error) {
       if(videoIDsThatContain.length === 0) {
@@ -99,22 +97,15 @@ const App = () => {
       setPlayingVideo(youTubeLinks[videoIndex+1].youtubeLink)
       let videoId = youTubeLinks[videoIndex+1].youtubeLink.substring(30,41)
       setCurrentVideoId(videoId)
+      setPlayingVideoTime(youTubeLinks[videoIndex+1].time)
       let currentWholeText = youTubeLinks[videoIndex+1].wholeText
       setWholeText(currentWholeText)
       let time = youTubeLinks[videoIndex+1].time
       //console.log(time)
       let firstTimeIndex = youTubeLinks[videoIndex+1].firstTimeIndex
       //console.log(firstTimeIndex)
-      let theTextBetweenTwoStamps = tillTheNextStamp(time, firstTimeIndex, currentWholeText)
-      //console.log(theTextBetweenTwoStamps)
-      setShownSubtitles(theTextBetweenTwoStamps.text)
-      /*
-      setShowSubtitle(true)
-      let timeOut = theTextBetweenTwoStamps.timeDifference*1000 + 4000
-      setTimeout(() => {
-        setShowSubtitle(false)
-      }, timeOut)
-      */
+      setFirstTimeIndex(firstTimeIndex)
+      setShowSubtitle(false)
     }
   }
   //
@@ -125,15 +116,14 @@ const App = () => {
       setPlayingVideo(youTubeLinks[videoIndex-1].youtubeLink)
       let videoId = youTubeLinks[videoIndex-1].youtubeLink.substring(30,41)
       setCurrentVideoId(videoId)
+      setPlayingVideoTime(youTubeLinks[videoIndex-1].time)
       let currentWholeText = youTubeLinks[videoIndex-1].wholeText
       setWholeText(currentWholeText)
       let time = youTubeLinks[videoIndex-1].time
       //console.log(time)
       let firstTimeIndex = youTubeLinks[videoIndex-1].firstTimeIndex
-      //console.log(firstTimeIndex)
-      let theTextBetweenTwoStamps = tillTheNextStamp(time, firstTimeIndex, currentWholeText)
-      //console.log(theTextBetweenTwoStamps)
-      setShownSubtitles(theTextBetweenTwoStamps.text)
+      setFirstTimeIndex(firstTimeIndex)
+      setShowSubtitle(false)
       /*
       setShowSubtitle(true)
       let timeOut = theTextBetweenTwoStamps.timeDifference*1000 + 4000
@@ -146,16 +136,43 @@ const App = () => {
 
   const handleKörOm = async(event) => {
     event.preventDefault()
+    setShowSubtitle(false)
     const link = playingVideo
-    if(link.substring(0,5) === 'https'){
-      const linkWithoutHttps = link.substring(5, link.length)
-      const linkWithHttp = 'http' + linkWithoutHttps
-      setPlayingVideo(linkWithHttp)
+    setPlayingVideo(`${link} `)
+    if(width === '640'){
+      setWidth('641')
     } else {
-      const linkWithoutHttp = link.substring(4, link.length)
-      const linkWithHttps = 'https' + linkWithoutHttp
-      setPlayingVideo(linkWithHttps)
+      setWidth('640')
     }
+  }
+
+  const opts = {
+    height: '390',
+    width: width,
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      cc_lang_pref: 'sv',
+      autoplay: 1,
+      start: playingVideoTime,
+      cc_load_policy: 1,
+      enablejsapi: 1,
+    },
+  }
+
+  const onPlay = (event) => {
+    //console.log(firstTimeIndex)
+    let theTextBetweenTwoStamps = tillTheNextStamp(playingVideoTime, firstTimeIndex, wholeText)
+    //console.log(theTextBetweenTwoStamps)
+    setShownSubtitles(theTextBetweenTwoStamps.text)
+    setShowSubtitle(true)
+    let timeOut = theTextBetweenTwoStamps.timeDifference*1000
+    setTimeout(() => {
+      setShowSubtitle(false)
+    }, timeOut)
+  }
+
+  const onPause = (event) => {
+    setShowSubtitle(true)
   }
 
   return (
@@ -177,6 +194,7 @@ const App = () => {
         frameBorder="0"
         allow='autoplay' >
       </iframe>
+      <YouTube videoId={currentVideoId} opts={opts} onPlay={onPlay} onPause={onPause}> </YouTube>
       <p style={showWhenVisible}>{shownSubtitles}</p>
     </div>
   )

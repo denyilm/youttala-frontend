@@ -1,4 +1,5 @@
-﻿function convertArrayTimeIntoSeconds(arr){
+﻿/* eslint-disable no-unused-vars */
+function convertArrayTimeIntoSeconds(arr){
   return parseInt(arr[0])*3600 + parseInt(arr[1])*60 + parseInt(arr[2])
 }
 
@@ -7,7 +8,7 @@ function tillTheNextStamp(firstTime, firstTimeIndex, wholeText) {
   var hour = ''
   var minutes = ''
   var seconds = ''
-  var secondTime
+  var nextTimeStamp
   var secondTimeIndex
   var textBetweenTwoStamps
 
@@ -16,11 +17,7 @@ function tillTheNextStamp(firstTime, firstTimeIndex, wholeText) {
 
   for(let i = firstTimeIndex + 1 ; i < wholeText.length - 1 ; i++){
     if(wholeText[i].includes('-->')){
-      hour = wholeText[i].substring(0,2)
-      //console.log(hour);
-      minutes = wholeText[i].substring(3,5)
-      //console.log(minutes);
-      seconds = wholeText[i].substring(6,8)
+      nextTimeStamp = wholeText[i]
       //console.log(seconds);
       secondTimeIndex = i
       //console.log('secondTimeIndex:', secondTimeIndex)
@@ -28,10 +25,17 @@ function tillTheNextStamp(firstTime, firstTimeIndex, wholeText) {
     }
   }
 
-  secondTime = convertArrayTimeIntoSeconds([hour, minutes, seconds])
+  //For the time difference
+  let timeStamp = nextTimeStamp.split(' --> ')
+  let subtitleEndHour = timeStamp[0].substring(0,2)
+  let subtitleEndMinutes = timeStamp[0].substring(3,5)
+  let subtitleEndSeconds = timeStamp[0].substring(6,8)
+  let secondTime = convertArrayTimeIntoSeconds([subtitleEndHour, subtitleEndMinutes, subtitleEndSeconds])
+
   let difference = secondTime - firstTime
+
   textBetweenTwoStamps = getSubtitleBetweenTwoStamps(wholeText, firstTimeIndex, secondTimeIndex)
-  return { 'timeDifference': difference, 'text': textBetweenTwoStamps }
+  return { 'timeDifference': difference, 'text': textBetweenTwoStamps, 'nextTimeStamp': nextTimeStamp }
 }
 
 function getSubtitleBetweenTwoStamps(wholeText, firstTimeIndex, secondTimeIndex) {
