@@ -1,5 +1,6 @@
 ﻿/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
 import subtitleService from './services/subtitles'
 import contains from './functions/contains'
 import buildYouTubeLinkArray from './functions/buildYouTubeLinkArray'
@@ -9,6 +10,7 @@ import SearchBar from './components/SearchBar'
 import Player from './components/Player'
 import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
+import AdminBar from './components/AdminBar'
 
 const AppCopy = () => {
   const [subtitles, setSubtitles] = useState([])
@@ -25,6 +27,13 @@ const AppCopy = () => {
   const [width, setWidth] = useState('640')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
+  //for admin to manage removing buggy lines
+  const [queryVideoId, setQueryVideoId] = useState('')
+  const [bugId, setBugId] = useState('')
+  const [adminMesssage1, setAdminMessage1] = useState('')
+  const [currentSubtitle, setCurrentSubtitle] = useState(null)
+  const [adminMessage2, setAdminMessage2] = useState('')
+  const [adminMessage3, setAdminMessage3] = useState('')
 
   useEffect(() => {
     subtitleService
@@ -33,6 +42,17 @@ const AppCopy = () => {
         setSubtitles(subtitles)
       })
   },[])
+
+
+  /*
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/subtitles')
+      .then(response => {
+        setSubtitles(response.data)
+      })
+  }, [])
+  */
 
   //hide/show starts
 
@@ -62,6 +82,15 @@ const AppCopy = () => {
       setCurrentVideoId(videoId)
       let time = youTubeLinkList[0].time
       setPlayingVideoTime(time)
+
+      if(videoId === currentVideoId && time === playingVideoTime){
+        if(width === '640'){
+          setWidth('640.1')
+        } else {
+          setWidth('640')
+        }
+      }
+
       let currentWholeText = youTubeLinkList[0].wholeText
       setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinkList[0].firstTimeIndex
@@ -71,14 +100,24 @@ const AppCopy = () => {
       setShowStats(true)
     } catch (error) {
       if(videoIDsThatContain.length === 0) {
+        setCurrentVideoId('5bfx6BNufdE')
+        setWholeText([])
+        setFirstTimeIndex(0)
+        setPlayingVideoTime(0)
+        setAutoplay(0)
         setShowStats(false)
         setYouTubeLinks([])
-        setShownSubtitles(`nothing found for ${query}`)
+        let text = `nothing found for ${query}, try 'skillnad'`
+        setShownSubtitles(text)
+        let shownSubtitlesArr = text.split(/[\s\n]+/)
+        setShownSubtitlesArr(shownSubtitlesArr)
         setShowSubtitle(true)
+        /*
         setTimeout(() => {
           setShownSubtitles(null)
           setShowSubtitle(false)
         }, 5000)
+        */
       }
     }
   }
@@ -101,15 +140,17 @@ const AppCopy = () => {
 
   //onPlay starts
   const onPlay = (event) => {
-    let theTextBetweenTwoStamps = tillTheNextStamp(playingVideoTime, firstTimeIndex, wholeText)
-    setShownSubtitles(theTextBetweenTwoStamps.text)
-    let shownSubtitlesArr = theTextBetweenTwoStamps.text.split(/[\s\n]+/)
-    setShownSubtitlesArr(shownSubtitlesArr)
-    setShowSubtitle(true)
-    let timeOut = theTextBetweenTwoStamps.timeDifference*1000
-    setTimeout(() => {
-      setShowSubtitle(false)
-    }, timeOut)
+    if(wholeText.length>0){
+      let theTextBetweenTwoStamps = tillTheNextStamp(playingVideoTime, firstTimeIndex, wholeText)
+      setShownSubtitles(theTextBetweenTwoStamps.text)
+      let shownSubtitlesArr = theTextBetweenTwoStamps.text.split(/[\s\n]+/)
+      setShownSubtitlesArr(shownSubtitlesArr)
+      setShowSubtitle(true)
+      let timeOut = theTextBetweenTwoStamps.timeDifference*1000
+      setTimeout(() => {
+        setShowSubtitle(false)
+      }, timeOut)
+    }
   }
   //onPlay ends
 
@@ -122,6 +163,15 @@ const AppCopy = () => {
       setCurrentVideoId(videoId)
       let time = youTubeLinks[videoIndex-1].time
       setPlayingVideoTime(time)
+
+      if(videoId === currentVideoId && time === playingVideoTime){
+        if(width === '640'){
+          setWidth('640.1')
+        } else {
+          setWidth('640')
+        }
+      }
+
       let currentWholeText = youTubeLinks[videoIndex-1].wholeText
       setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinks[videoIndex-1].firstTimeIndex
@@ -152,6 +202,15 @@ const AppCopy = () => {
       setCurrentVideoId(videoId)
       let time = youTubeLinks[videoIndex+1].time
       setPlayingVideoTime(time)
+
+      if(videoId === currentVideoId && time === playingVideoTime){
+        if(width === '640'){
+          setWidth('640.1')
+        } else {
+          setWidth('640')
+        }
+      }
+
       let currentWholeText = youTubeLinks[videoIndex+1].wholeText
       setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinks[videoIndex+1].firstTimeIndex
@@ -161,12 +220,174 @@ const AppCopy = () => {
   }
   //handleBack ends
 
+  //handleBug starts
+  const handleBug = async(subtitleObject) => {
+    console.log(subtitleObject.videoId)
+    try {
+      let buggyLines = subtitleObject.buggyLines
+      const youTubeLink = youTubeLinks[videoIndex]
+      const timeStamp = youTubeLink.timeStamp
+      const hour = timeStamp.substring(0,2)
+      const minutes = timeStamp.substring(3,5)
+      const seconds = timeStamp.substring(6,8)
+      const mseconds = timeStamp.substring(9,12)
+      const bugId = `${youTubeLink.id}_${hour}${minutes}${seconds}${mseconds}`
+
+      //buggyLines = []
+
+      if(!buggyLines.find(bug => bug.bugId === bugId)){
+        //to clean the buggyLines of the subtitleObject disable from here to
+        buggyLines.push(
+          {
+            bugId: bugId,
+            buggyText: youTubeLink.lineText,
+            lineIndex: youTubeLink.lineIndex,
+            time: youTubeLink.time,
+            timeStamp: youTubeLink.timeStamp,
+            firstTimeIndex: youTubeLink.firstTimeIndex,
+            nextTimeStamp: youTubeLink.nextTimeStamp,
+            secondTimeIndex: youTubeLink.secondTimeIndex,
+            link: youTubeLink.youtubeLink })
+        //... to here
+        const newSubtitle = await subtitleService.reportBug({
+          //channelTitle: subtitleObject.channelTitle,
+          //videoId: subtitleObject.videoId,
+          videoId: subtitleObject.videoId,
+          buggyLines: buggyLines,
+          //text: subtitleObject.text
+        })
+      }else{
+        console.log('already reported')
+      }
+      console.log('handleBug worked')
+    } catch (e) {
+      console.log(e)
+      console.log('handleBug failed')
+    }
+  }
+  //handleBug ends
+
   const handleShow = () => setShowSubtitle(true)
   const handleHide = () => setShowSubtitle(false)
+
+  //Admin
+  //
+
+  const handleQueryVideoIdChange = (event) => setQueryVideoId(event.target.value)
+  const handleQueryBugIdChange = (event) => setBugId(event.target.value)
+
+  //find video by its id
+  const searchVideoById = async(event) => {
+    event.preventDefault()
+    try {
+      setWholeText([])
+      setFirstTimeIndex(0)
+      setPlayingVideoTime(0)
+      setAutoplay(0)
+      setShowStats(false)
+      setYouTubeLinks([])
+
+      if(subtitles.find( subtitle => subtitle.videoId === queryVideoId)){
+        setCurrentVideoId(queryVideoId)
+        setAdminMessage1(`${queryVideoId} found`)
+        setCurrentSubtitle(subtitles.find( subtitle => subtitle.videoId === queryVideoId))
+      }else {
+        setCurrentVideoId('5bfx6BNufdE')
+        setAdminMessage1('This subtitle is not in the db')
+        setBugId('')
+        setAdminMessage2('')
+      }
+
+    } catch (error) {
+      console.log(error)
+      setAdminMessage1('There was an error, check the console')
+      setWholeText([])
+      setFirstTimeIndex(0)
+      setPlayingVideoTime(0)
+      setAutoplay(0)
+      setShowStats(false)
+      setYouTubeLinks([])
+      setCurrentVideoId('5bfx6BNufdE')
+    }
+  }
+
+  const searchBugById = async(event) => {
+    event.preventDefault()
+
+    try {
+      if(currentSubtitle.buggyLines.find(bug => bug.bugId === bugId)){
+        setAdminMessage2(`${bugId} found`)
+        setBugId(bugId)
+        let buggyLine = currentSubtitle.buggyLines.find(bug => bug.bugId === bugId)
+        setPlayingVideoTime(buggyLine.time)
+        setAutoplay(1)
+        setShownSubtitles(false)
+      } else {
+        setAdminMessage2(`${bugId} not found`)
+      }
+    } catch (error) {
+      console.log(error)
+      setAdminMessage2(`There was an error, see the console, ${bugId} not found`)
+    }
+
+  }
+
+  //handleCorrect starts
+  const handleCorrect = async( subtitleObject, bugId ) => {
+    const buggyLine = subtitleObject.buggyLines.find(buggyLine => buggyLine.bugId === bugId)
+    console.log(buggyLine)
+    const confirmation = window.confirm(`Do you really want to remove the part from ${buggyLine.timeStamp} to ${buggyLine.nextTimeStamp}?`)
+    //const buggyLine = subtitleObject.buggyLines.find(buggyLine => buggyLine.bugId === bugId)
+    const deleteFrom = buggyLine.firstTimeIndex
+
+    const deleteUpTo = buggyLine.secondTimeIndex
+    const deleteCount = deleteUpTo - deleteFrom
+    const buggyLines = subtitleObject.buggyLines.slice()
+    console.log(buggyLines)
+    const correctedBuggyLines = buggyLines.filter(buggyLine => buggyLine.bugId !== bugId)
+    console.log(correctedBuggyLines)
+    const correctedText = subtitleObject.text
+    correctedText.splice(deleteFrom, deleteCount)
+
+    if(confirmation){
+      try {
+        const newSubtitle = await subtitleService.deleteBuggyLines({
+          //channelTitle: subtitleObject.channelTitle,
+          //videoId: subtitleObject.videoId,
+          id: subtitleObject.id,
+          buggyLines: correctedBuggyLines,
+          text: correctedText
+        })
+        setAdminMessage3(`${bugId} corrected`)
+      } catch (error) {
+        console.log(error)
+        setAdminMessage3('Correction failed, see the conssole')
+        //setAdminMessage('subtitle could not be corrected')
+      }
+    }else {
+      setAdminMessage3('Correction cancelled')
+    }
+
+  }
+  //handleCorrect ends
+
+
 
   return (
     <div>
       <Header/>
+      <AdminBar
+        queryVideoId = {queryVideoId}
+        handleQueryVideoIdChange = {handleQueryVideoIdChange}
+        searchVideoById = {searchVideoById}
+        adminMessage1={adminMesssage1}
+        queryBugId={bugId}
+        handleQueryBugIdChange={handleQueryBugIdChange}
+        searchBugById={searchBugById}
+        adminMessage2={adminMessage2}
+        handleCorrect={() => handleCorrect(currentSubtitle, bugId)}
+        adminMessage3={adminMessage3}
+      />
       <SearchBar
         query={query}
         handleQueryChange={handleQueryChange}
@@ -181,6 +402,7 @@ const AppCopy = () => {
         showStats={showStats}
         videoIndex={videoIndex+1}
         length={youTubeLinks.length}
+        handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
       />
       <Subtitle
         showSubtitle={showSubtitle}

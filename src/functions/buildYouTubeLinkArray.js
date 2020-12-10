@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 function convertArrayTimeIntoSeconds(arr){
   return parseInt(arr[0])*3600 + parseInt(arr[1])*60 + parseInt(arr[2])
 }
 
 function findTimeInVideo(lineIndex, wholeText){
+  let timeStamp
   let hour = ''
   let minutes = ''
   let seconds = ''
@@ -10,6 +12,7 @@ function findTimeInVideo(lineIndex, wholeText){
 
   for(let i = lineIndex ; i > 0 ; i--){
     if(wholeText[i].includes('-->')){
+      timeStamp = wholeText[i]
       hour = wholeText[i].substring(0,2)
       //console.log(hour);
       minutes = wholeText[i].substring(3,5)
@@ -21,7 +24,24 @@ function findTimeInVideo(lineIndex, wholeText){
     }
   }
 
-  return { 'time': convertArrayTimeIntoSeconds([hour, minutes, seconds]), 'firstTimeIndex': index }
+  return { 'timeStamp': timeStamp, 'time': convertArrayTimeIntoSeconds([hour, minutes, seconds]), 'firstTimeIndex': index }
+}
+
+function findNextTime(firstTimeIndex, wholeText){
+  let nextTimeStamp
+  let secondTimeIndex
+
+  for(let i = firstTimeIndex + 1 ; i < wholeText.length - 1 ; i++){
+    if(wholeText[i].includes('-->')){
+      nextTimeStamp = wholeText[i]
+      //console.log(seconds);
+      secondTimeIndex = i
+      //console.log('secondTimeIndex:', secondTimeIndex)
+      break
+    }
+  }
+
+  return { 'nextTimeStamp': nextTimeStamp, 'secondTimeIndex': secondTimeIndex }
 }
 
 //shuffle an Array
@@ -67,21 +87,28 @@ function buildYouTubeLinkArray(query, idArr, database){
 
     for(let i = 0; i < l - 1 ; i++){
       let time
+      let timeStamp
       let firstTimeIndex
       let uTubeLink = ''
       let wordArr = wholeText[i].split(' ')
       wordArr.forEach(function(ord){
         if(regex.test(ord)){
           time = findTimeInVideo(i,wholeText).time
+          timeStamp = findTimeInVideo(i, wholeText).timeStamp
           firstTimeIndex = findTimeInVideo(i, wholeText).firstTimeIndex
           uTubeLink = buildLink(id,time)
           theList.push({
             'youtubeLink': uTubeLink,
             'id': id,
             'time': time,
+            'timeStamp': timeStamp,
             'firstTimeIndex': firstTimeIndex,
+            'nextTimeStamp': findNextTime(firstTimeIndex, wholeText).nextTimeStamp,
+            'secondTimeIndex': findNextTime(firstTimeIndex, wholeText).secondTimeIndex,
             'lineIndex': i,
-            'wholeText': wholeText })
+            'wholeText': wholeText,
+            'lineText': wholeText[i]
+          })
         }
       })
 

@@ -8,6 +8,9 @@ const Player = (props) => {
 
   return (
     <div>
+      <div>
+        <button onClick={props.handleBug}>bug</button>
+      </div>
       <YouTube videoId={props.videoId} opts={props.opts} onPlay={props.onPlay}></YouTube>
       <div>
         <button onClick={props.handleBack}>back</button>
