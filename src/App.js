@@ -26,10 +26,10 @@ const App = () => {
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
 
   useEffect(() => {
-    subtitleService
-      .getAll()
-      .then(subtitles => {
-        setSubtitles(subtitles)
+    axios
+      .get('http://localhost:3001/subtitles')
+      .then(response => {
+        setSubtitles(response.data)
       })
   }, [])
 
@@ -176,13 +176,12 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>youttala</h2>
+    <div class="container">
       <form onSubmit={handleSubmit}>
         <input value={query} onChange={({ target }) => setQuery(target.value)} size="62" type='text'></input>
         <button type='submit'>kör</button>
       </form>
-      <div id='play-bar'>
+      <div class="play-bar"id='play-bar'>
         <button onClick={handleBack}>back</button>
         <button onClick={handleKörOm}>kör om</button>
         <button onClick={handleNext}>next</button>

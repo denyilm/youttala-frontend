@@ -1,6 +1,12 @@
 ﻿/* eslint-disable no-unused-vars */
 import React from 'react'
 import YouTube from 'react-youtube'
+import {FaBackward} from 'react-icons/fa'
+import {FaForward} from 'react-icons/fa'
+import {FaRedo} from 'react-icons/fa'
+import {FaExclamationCircle} from 'react-icons/fa'
+
+
 
 const Player = (props) => {
 
@@ -8,15 +14,34 @@ const Player = (props) => {
 
   return (
     <div>
+      <div class="video">
       <YouTube videoId={props.videoId} opts={props.opts} onPlay={props.onPlay}></YouTube>
-      <div>
-        <button onClick={props.handleBack}>back</button>
-        <button onClick={props.handleKörOm}>kör om</button>
-        <button onClick={props.handleNext}>next</button>
       </div>
-      <span style={showWhenVisible}> {props.videoIndex} av {props.length}</span>
+      <div class="player-bar">
+        <div class="empty">
+
+        </div>
+        <div class="button-set">
+        <div>
+          <button class="button" onClick={props.handleBack}><FaBackward size= {31}/></button>
+        </div>
+        <div>
+          <button class="button" onClick={props.handleKörOm}><FaRedo size= {31}/></button>
+        </div>
+        <div>
+          <button class="button" onClick={props.handleNext}><FaForward size= {31}/></button>
+        </div>
+      </div>
+      <div class="extras">
+        <span> {props.videoIndex} av {props.length}</span>
+        <button class="button" onClick={props.handleNext}><FaExclamationCircle size= {15}/></button>
+      </div>
+      </div>
     </div>
   )
 }
 
 export default Player
+
+
+

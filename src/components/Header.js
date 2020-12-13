@@ -3,17 +3,21 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div>
-      <header>
-        <h1>youttala</h1>
-        <ul>
-          <li>om</li>
-          <li>kontakt</li>
-          <li>nyheter</li>
-        </ul>
-      </header>
+    <div class="main-header">
+        <a href="/" class="brand-logo">
+          <div class="brand-logo-name">youttala</div>
+        </a>
+        <div class="main-nav">
+          <ul>
+            <li><a href="/">om</a></li>
+            <li><a href="/">kontakt</a></li>
+            <li><a href="/">nyheter</a></li>
+          </ul>
+        </div> 
     </div>
   )
 }
 
 export default Header
+
+

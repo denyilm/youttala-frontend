@@ -4,9 +4,9 @@ import React from 'react'
 const SearchBar = (props) => {
   return (
     <div>
-      <form onSubmit = {props.handleSubmit}>
-        <input value={props.query} type='text' onChange={props.handleQueryChange}></input>
-        <button type='submit'>search</button>
+      <form class="form" onSubmit = {props.handleSubmit}>
+        <input autoFocus class="searchbar" value={props.query} type='text' onChange={props.handleQueryChange}></input>
+        <button class="search-button" type='submit'>Search</button>
       </form>
     </div>
   )

@@ -22,7 +22,7 @@ const AppCopy = () => {
   const [showSubtitle ,setShowSubtitle] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [playingVideoTime, setPlayingVideoTime] = useState(0)
-  const [width, setWidth] = useState('640')
+  const [width, setWidth] = useState('955')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
 
@@ -86,7 +86,7 @@ const AppCopy = () => {
 
   //opts starts
   const opts = {
-    height: '390',
+    height: '543',
     width: width,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
@@ -135,10 +135,10 @@ const AppCopy = () => {
   const handleKörOm = async(event) => {
     event.preventDefault()
     setShowSubtitle(true)
-    if(width === '640'){
-      setWidth('640.1')
+    if(width === '955'){
+      setWidth('955.1')
     } else {
-      setWidth('640')
+      setWidth('955')
     }
   }
   //handleKörOm ends
@@ -167,29 +167,33 @@ const AppCopy = () => {
   return (
     <div>
       <Header/>
-      <SearchBar
-        query={query}
-        handleQueryChange={handleQueryChange}
-        handleSubmit={handleSubmit}/>
-      <Player
-        videoId={currentVideoId}
-        opts={opts}
-        handleBack={handleBack}
-        handleKörOm={handleKörOm}
-        handleNext={handleNext}
-        onPlay={onPlay}
-        showStats={showStats}
-        videoIndex={videoIndex+1}
-        length={youTubeLinks.length}
-      />
-      <Subtitle
-        showSubtitle={showSubtitle}
-        shownSubtitles={shownSubtitles}
-        shownSubtitlesArr={shownSubtitlesArr}
-        handleShow={handleShow}
-        handleHide={handleHide}
-        query={query}
-      />
+      <div class="container">
+        <SearchBar
+          query={query}
+          handleQueryChange={handleQueryChange}
+          handleSubmit={handleSubmit}/>
+        <div class="player">
+        <Player
+          videoId={currentVideoId}
+          opts={opts}
+          handleBack={handleBack}
+          handleKörOm={handleKörOm}
+          handleNext={handleNext}
+          onPlay={onPlay}
+          showStats={showStats}
+          videoIndex={videoIndex+1}
+          length={youTubeLinks.length}
+        />
+        </div> 
+        <Subtitle
+          showSubtitle={showSubtitle}
+          shownSubtitles={shownSubtitles}
+          shownSubtitlesArr={shownSubtitlesArr}
+          handleShow={handleShow}
+          handleHide={handleHide}
+          query={query}
+        />
+      </div>
       <Footer/>
     </div>
   )

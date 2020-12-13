@@ -3,13 +3,13 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>
-      <footer>
-        <ul>
-          <li>license</li>
-          <li>e-mail</li>
-        </ul>
-      </footer>
+    <div class="main-footer">
+          <nav class="footer-nav">
+            <ul>
+              <li><a href="#">license</a></li>
+              <li><a href="#">e-mail</a></li>
+            </ul>
+          </nav>
     </div>
   )
 }
