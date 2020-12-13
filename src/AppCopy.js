@@ -11,6 +11,7 @@ import Player from './components/Player'
 import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
 import AdminBar from './components/AdminBar'
+import Media from 'react-media'
 
 const AppCopy = () => {
   const [subtitles, setSubtitles] = useState([])
@@ -34,6 +35,14 @@ const AppCopy = () => {
   const [currentSubtitle, setCurrentSubtitle] = useState(null)
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
+
+  const GLOBAL_MEDIA_QUERIES = {
+    smallWidth: '(min-width: 200px)',
+    largeWidth: '(max-width: 955px)',
+    smallHeigth: '(min-heigth: 200px)',
+    largeHeigth: '(max-heigth: 545px)'
+  }
+
 
   useEffect(() => {
     subtitleService
@@ -67,12 +76,18 @@ const AppCopy = () => {
   //handleSubmit starts
   const handleSubmit = async(event) => {
     event.preventDefault()
+    console.log(query)
     let youTubeLinkList = []
     let videoIDsThatContain = []
     try {
+      console.log('inside try', query)
       subtitles.forEach(subtitle => {
         if(contains(query, subtitle.text)){
+          console.log('inside subtitles')
+          console.log(true)
+          console.log(subtitle.id)
           videoIDsThatContain.push(subtitle.videoId)
+          console.log(videoIDsThatContain)
         }
       })
       youTubeLinkList = buildYouTubeLinkArray(query, videoIDsThatContain, subtitles)
@@ -125,7 +140,7 @@ const AppCopy = () => {
 
   //opts starts
   const opts = {
-    height: '390',
+    height: '360',
     width: width,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
@@ -338,19 +353,18 @@ const AppCopy = () => {
     console.log(buggyLine)
     const confirmation = window.confirm(`Do you really want to remove the part from ${buggyLine.timeStamp} to ${buggyLine.nextTimeStamp}?`)
     //const buggyLine = subtitleObject.buggyLines.find(buggyLine => buggyLine.bugId === bugId)
-    const deleteFrom = buggyLine.firstTimeIndex
-
-    const deleteUpTo = buggyLine.secondTimeIndex
-    const deleteCount = deleteUpTo - deleteFrom
-    const buggyLines = subtitleObject.buggyLines.slice()
-    console.log(buggyLines)
-    const correctedBuggyLines = buggyLines.filter(buggyLine => buggyLine.bugId !== bugId)
-    console.log(correctedBuggyLines)
-    const correctedText = subtitleObject.text
-    correctedText.splice(deleteFrom, deleteCount)
 
     if(confirmation){
       try {
+        const deleteFrom = buggyLine.firstTimeIndex
+        const deleteUpTo = buggyLine.secondTimeIndex
+        const deleteCount = deleteUpTo - deleteFrom
+        const buggyLines = subtitleObject.buggyLines.slice()
+        console.log(buggyLines)
+        const correctedBuggyLines = buggyLines.filter(buggyLine => buggyLine.bugId !== bugId)
+        console.log(correctedBuggyLines)
+        const correctedText = subtitleObject.text
+        correctedText.splice(deleteFrom, deleteCount)
         const newSubtitle = await subtitleService.deleteBuggyLines({
           //channelTitle: subtitleObject.channelTitle,
           //videoId: subtitleObject.videoId,
@@ -388,30 +402,34 @@ const AppCopy = () => {
         handleCorrect={() => handleCorrect(currentSubtitle, bugId)}
         adminMessage3={adminMessage3}
       />
-      <SearchBar
-        query={query}
-        handleQueryChange={handleQueryChange}
-        handleSubmit={handleSubmit}/>
-      <Player
-        videoId={currentVideoId}
-        opts={opts}
-        handleBack={handleBack}
-        handleKörOm={handleKörOm}
-        handleNext={handleNext}
-        onPlay={onPlay}
-        showStats={showStats}
-        videoIndex={videoIndex+1}
-        length={youTubeLinks.length}
-        handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
-      />
-      <Subtitle
-        showSubtitle={showSubtitle}
-        shownSubtitles={shownSubtitles}
-        shownSubtitlesArr={shownSubtitlesArr}
-        handleShow={handleShow}
-        handleHide={handleHide}
-        query={query}
-      />
+      <div className='container'>
+        <SearchBar
+          query={query}
+          handleQueryChange={handleQueryChange}
+          handleSubmit={handleSubmit}/>
+        <div className='player'>
+          <Player
+            videoId={currentVideoId}
+            opts={opts}
+            handleBack={handleBack}
+            handleKörOm={handleKörOm}
+            handleNext={handleNext}
+            onPlay={onPlay}
+            showStats={showStats}
+            videoIndex={videoIndex+1}
+            length={youTubeLinks.length}
+            handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
+          />
+        </div>
+        <Subtitle
+          showSubtitle={showSubtitle}
+          shownSubtitles={shownSubtitles}
+          shownSubtitlesArr={shownSubtitlesArr}
+          handleShow={handleShow}
+          handleHide={handleHide}
+          query={query}
+        />
+      </div>
       <Footer/>
     </div>
   )

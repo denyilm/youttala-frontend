@@ -2,6 +2,18 @@
 import React from 'react'
 
 const Footer = () => {
+
+  return (
+    <div className="main-footer">
+      <nav className="footer-nav">
+        <ul>
+          <li><a href="#">license</a></li>
+          <li><a href="#">e-mail</a></li>
+        </ul>
+      </nav>
+    </div>
+  )
+/*
   return (
     <div>
       <footer>
@@ -12,6 +24,7 @@ const Footer = () => {
       </footer>
     </div>
   )
+*/
 }
 
 export default Footer

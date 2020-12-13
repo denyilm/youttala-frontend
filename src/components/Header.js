@@ -3,15 +3,17 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div>
-      <header>
-        <h1>youttala</h1>
+    <div className="main-header">
+      <a href="/" className="brand-logo">
+        <div className="brand-logo-name">youttala</div>
+      </a>
+      <div className="main-nav">
         <ul>
-          <li>om</li>
-          <li>kontakt</li>
-          <li>nyheter</li>
+          <li><a href="#">om</a></li>
+          <li><a href="#">kontakt</a></li>
+          <li><a href="#">nyheter</a></li>
         </ul>
-      </header>
+      </div>
     </div>
   )
 }

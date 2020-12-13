@@ -6,7 +6,7 @@ const AdminBar = (props) => {
 
   //Change display to '' to be be eligible to correct the buggyLines
   const style = {
-    display: '' ,
+    display: 'none' ,
     border: 'solid',
     borderWidth: 1,
   }
