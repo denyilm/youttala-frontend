@@ -26,6 +26,7 @@ const AppCopy = () => {
   const [showStats, setShowStats] = useState(false)
   const [playingVideoTime, setPlayingVideoTime] = useState(0)
   const [width, setWidth] = useState('640')
+  const [height, setHeight] = useState('360')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
   //for admin to manage removing buggy lines
@@ -35,13 +36,6 @@ const AppCopy = () => {
   const [currentSubtitle, setCurrentSubtitle] = useState(null)
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
-
-  const GLOBAL_MEDIA_QUERIES = {
-    smallWidth: '(min-width: 200px)',
-    largeWidth: '(max-width: 955px)',
-    smallHeigth: '(min-heigth: 200px)',
-    largeHeigth: '(max-heigth: 545px)'
-  }
 
 
   useEffect(() => {
@@ -138,9 +132,20 @@ const AppCopy = () => {
   }
   ////handleSubmit ends
 
+  window.addEventListener('resize', (event) => {
+    event.preventDefault()
+    if(window.innerWidth < 415){
+      setWidth('310')
+    }else if(window.innerWidth < 668){
+      setWidth('400')
+    }else if(window.innerWidth > 668){
+      setWidth('640')
+    }
+  })
+
   //opts starts
   const opts = {
-    height: '360',
+    height: height,
     width: width,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
@@ -152,6 +157,8 @@ const AppCopy = () => {
     },
   }
   //opts ends
+
+
 
   //onPlay starts
   const onPlay = (event) => {
@@ -407,7 +414,7 @@ const AppCopy = () => {
           query={query}
           handleQueryChange={handleQueryChange}
           handleSubmit={handleSubmit}/>
-        <div className='player'>
+        <div className='player-all'>
           <Player
             videoId={currentVideoId}
             opts={opts}

@@ -125,6 +125,18 @@ padding-right: 2rem;
   margin-top: 35px;
 }
 
+@media (max-width: 660px){
+  .container{
+    width: 414px;
+  }
+}
+
+@media (max-width: 414px){
+  .container{
+    width: 320px;
+  }
+}
+
 .form {
   justify-content: space-around;
   margin-bottom: 10px;
@@ -168,7 +180,7 @@ padding-right: 2rem;
 
 .player {
   background-color: #EAF2EF;
-  width: 643px;
+  max-width: 643px;
   align-content: center;
   height: 411px;
   border: 2px solid;

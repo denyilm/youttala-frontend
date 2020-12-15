@@ -12,7 +12,7 @@ const Player = (props) => {
   const showWhenNotVisible = { display: props.showStats ? 'none' : '' }
 
   return (
-    <div>
+    <div className='player'>
       <div className="video">
         <YouTube videoId={props.videoId} opts={props.opts} onPlay={props.onPlay}></YouTube>
       </div>
