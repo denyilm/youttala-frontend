@@ -52,7 +52,7 @@ const Subtitle = ({ shownSubtitles, shownSubtitlesArr, showSubtitle, handleShow,
             {shownSubtitlesArr.map( (word, i=0) =>
               <span
                 style={{ color: regex.test(word) ? 'red' : 'black' }}
-                key={word + i+1}>{word}&nbsp;</span>
+                key={word + i+1}>{`${word} `}</span>
             )}
           </p>
         </div>

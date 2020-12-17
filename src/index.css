@@ -245,11 +245,10 @@ padding-right: 2rem;
 .subtitle {
   background-color:white;
   max-width: 644px;
-  height: 82px;
+  height: 80px;
   align-items: center;
   box-sizing: border-box;
   border-radius: 5px;
-  text-justify: inter-word;
   border: 2px solid;
   font-size: 15px;
   display: flex;
@@ -268,18 +267,16 @@ padding-right: 2rem;
 
 .subtitle-subtitle {
   display: flex;
-  flex: 10;
+  flex: 4;
   align-items: center;
-  width: 90%;  
+  width: 90%;
   justify-content: center;
 }
 
 .paragraph {
-  height: 80%;
+  height: 100%;
   width: 100%;
   word-break: break-word;
-  white-space: pre-wrap;
-  -moz-white-space: pre-wrap;
 }
 
 .hidden-subtitle{

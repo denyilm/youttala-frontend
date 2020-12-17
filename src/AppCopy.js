@@ -1,6 +1,5 @@
 ﻿/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import subtitleService from './services/subtitles'
 import contains from './functions/contains'
 import buildYouTubeLinkArray from './functions/buildYouTubeLinkArray'
@@ -11,7 +10,6 @@ import Player from './components/Player'
 import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
 import AdminBar from './components/AdminBar'
-import Media from 'react-media'
 
 const AppCopy = () => {
   const [subtitles, setSubtitles] = useState([])
@@ -25,8 +23,11 @@ const AppCopy = () => {
   const [showSubtitle ,setShowSubtitle] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [playingVideoTime, setPlayingVideoTime] = useState(0)
+  const [windowWidth, setWindowWidth] = useState(0)
+  const [windowHeight, setWindowHeight] = useState(0)
   const [width, setWidth] = useState('640')
   const [height, setHeight] = useState('360')
+  const [youTubeContainerClassName, setYouTubeContainerClassName] = useState('iFrame')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
   //for admin to manage removing buggy lines
@@ -37,6 +38,41 @@ const AppCopy = () => {
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
 
+  useEffect(() => {
+    setWindowWidth(window.innerWidth)
+    setWindowHeight(window.innerHeight)
+  })
+
+  //iPhone 5/SE 320x568
+  //iPhone 6/7/8 375x667
+  //iPhone 6/7/8 Plus 414x736
+  //iPhone X 375x812
+  //iPad 768x1024
+  //iPad Pro 1024x1366
+
+  useEffect(() => {
+    if(windowWidth < 415){
+      setWidth('310')
+      //setHeight('200')
+    }else if(windowWidth < 668){
+      setWidth('400')
+      //setHeight('300')
+    }else if(windowWidth > 668){
+      setWidth('640')
+      //setHeight('360')
+    }
+  })
+
+  window.addEventListener('resize', (event) => {
+    event.preventDefault()
+    if(window.innerWidth < 415){
+      setWidth('310')
+    }else if(window.innerWidth < 668){
+      setWidth('400')
+    }else if(window.innerWidth > 668){
+      setWidth('640')
+    }
+  })
 
   useEffect(() => {
     subtitleService
@@ -132,6 +168,7 @@ const AppCopy = () => {
   }
   ////handleSubmit ends
 
+  /*
   window.addEventListener('resize', (event) => {
     event.preventDefault()
     if(window.innerWidth < 415){
@@ -142,10 +179,10 @@ const AppCopy = () => {
       setWidth('640')
     }
   })
+  */
 
   //opts starts
   const opts = {
-    height: height,
     width: width,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
@@ -157,8 +194,6 @@ const AppCopy = () => {
     },
   }
   //opts ends
-
-
 
   //onPlay starts
   const onPlay = (event) => {
@@ -418,6 +453,7 @@ const AppCopy = () => {
           <Player
             videoId={currentVideoId}
             opts={opts}
+            containerClassName={youTubeContainerClassName}
             handleBack={handleBack}
             handleKörOm={handleKörOm}
             handleNext={handleNext}
