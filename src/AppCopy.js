@@ -53,24 +53,27 @@ const AppCopy = () => {
   useEffect(() => {
     if(windowWidth < 415){
       setWidth('310')
-      //setHeight('200')
+      setHeight('200')
     }else if(windowWidth < 668){
       setWidth('400')
-      //setHeight('300')
+      setHeight('300')
     }else if(windowWidth > 668){
       setWidth('640')
-      //setHeight('360')
+      setHeight('360')
     }
   })
 
   window.addEventListener('resize', (event) => {
     event.preventDefault()
     if(window.innerWidth < 415){
-      setWidth('310')
+      setWidth('320')
+      setHeight('200')
     }else if(window.innerWidth < 668){
       setWidth('400')
+      setHeight('225')
     }else if(window.innerWidth > 668){
       setWidth('640')
+      setHeight('360')
     }
   })
 
@@ -183,6 +186,7 @@ const AppCopy = () => {
 
   //opts starts
   const opts = {
+    height: height,
     width: width,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters

@@ -125,17 +125,7 @@ padding-right: 2rem;
   margin-top: 35px;
 }
 
-@media (max-width: 660px){
-  .container{
-    width: 414px;
-  }
-}
 
-@media (max-width: 414px){
-  .container{
-    width: 320px;
-  }
-}
 
 .form {
   justify-content: space-around;
@@ -194,6 +184,34 @@ padding-right: 2rem;
   height: 362px;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 660px){
+  .container{
+    width: 414px;
+  }
+
+  .video{
+    height: 300px;
+  }
+
+  .player{
+    height: 345px;
+  }
+}
+
+@media (max-width: 414px){
+  .container{
+    width: 320px;
+  }
+
+  .video{
+    height: 200px;
+  }
+
+  .player{
+    height: 245px;
+  }
 }
 
 
