@@ -61,9 +61,17 @@ const AppCopy = () => {
   //iPad Pro 1024x1366
 
   useEffect(() => {
+    subtitleService
+      .getAll()
+      .then(subtitles => {
+        setSubtitles(subtitles)
+      })
+  },[])
+
+  useEffect(() => {
     if(window.innerWidth < 415){
       //iPhone 5/SE/6/7/8
-      setWidth('310')
+      setWidth('320')
       setHeight('200')
     }else if(window.innerWidth < 668){
       //iPhone 6/7/8 Plus
@@ -74,29 +82,21 @@ const AppCopy = () => {
       setWidth('640')
       setHeight('360')
     }
-  })
+  },[])
 
   window.addEventListener('resize', (event) => {
     event.preventDefault()
     if(window.innerWidth < 415){
-      setWidth('320')
+      setWidth('310')
       setHeight('200')
     }else if(window.innerWidth < 668){
       setWidth('400')
-      setHeight('225')
+      setHeight('300')
     }else if(window.innerWidth > 668){
       setWidth('640')
       setHeight('360')
     }
   })
-
-  useEffect(() => {
-    subtitleService
-      .getAll()
-      .then(subtitles => {
-        setSubtitles(subtitles)
-      })
-  },[])
 
 
   /*
