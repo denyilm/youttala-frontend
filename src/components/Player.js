@@ -32,9 +32,9 @@ const Player = (props) => {
           </div>
         </div>
         <div className="extras">
-          <span style={showWhenVisible}> {props.videoIndex} av {props.length}</span>
+          <span style={showWhenVisible}> {props.videoIndex} of {props.length}</span>
           <span style={showWhenNotVisible}></span>
-          <button className="button" title='report a bug' onClick={props.handleBug}><FaExclamationCircle size= {13}/></button>
+          <button className="button" id='bug-button' title='report a bug' onClick={props.handleBug}><FaExclamationCircle size= {13}/></button>
         </div>
       </div>
     </div>

@@ -186,6 +186,7 @@ padding-right: 2rem;
   justify-content: center;
 }
 
+/*
 @media (max-width: 660px){
   .container{
     width: 414px;
@@ -213,6 +214,7 @@ padding-right: 2rem;
     height: 245px;
   }
 }
+*/
 
 
 .player-bar {
@@ -359,5 +361,89 @@ padding-right: 2rem;
 
 #coming-soon{
   font-size: 23px;
+}
+
+/*
+iPhone 5/SE 320x568
+iPhone 6/7/8 375x667
+iPhone 6/7/8 Plus 414x736
+iPhone X 375x812
+iPad 768x1024
+iPad Pro 1024x1366
+*/
+
+/*
+iPhone 6/7/8 Plus
+*/
+
+@media (max-width: 660px){
+  .container{
+    width: 414px;
+  }
+
+  .video{
+    height: 300px;
+  }
+
+  .player{
+    height: 345px;
+  }
+
+  .extras {
+    padding-bottom: 7px;
+    height: 13px;
+  }
+
+  .empty {
+    margin-bottom: 4px;
+  }
+
+  .main-nav ul {
+    width: 150px;
+    margin-right: 1em;
+  }
+
+  .brand-logo-name{
+    margin-left: 1em;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    }
+}
+
+/*
+iPhone 5/SE/6/7/8
+*/
+
+@media (max-width: 414px){
+  .container{
+    width: 320px;
+  }
+
+  .video{
+    height: 200px;
+  }
+
+  .player{
+    height: 245px;
+  }
+
+  #bug-button{
+    visibility: hidden;
+  }
+
+  .brand-logo-name{
+    margin-left: 0.31em;
+  }
+
+  .main-nav ul {
+    width: 150px;
+    margin-right: 0.31em;
+  }
+
+  .first-subtitle{
+    font-size: 14px;
+  }
 }
 

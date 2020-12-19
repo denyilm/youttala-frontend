@@ -25,8 +25,8 @@ const AppCopy = () => {
   const [playingVideoTime, setPlayingVideoTime] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
   const [windowHeight, setWindowHeight] = useState(0)
-  const [width, setWidth] = useState('640')
-  const [height, setHeight] = useState('360')
+  const [width, setWidth] = useState()
+  const [height, setHeight] = useState()
   const [youTubeContainerClassName, setYouTubeContainerClassName] = useState('iFrame')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
@@ -38,10 +38,13 @@ const AppCopy = () => {
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
 
+
+  /*
   useEffect(() => {
     setWindowWidth(window.innerWidth)
     setWindowHeight(window.innerHeight)
   })
+  */
 
   //iPhone 5/SE 320x568
   //iPhone 6/7/8 375x667
@@ -51,13 +54,16 @@ const AppCopy = () => {
   //iPad Pro 1024x1366
 
   useEffect(() => {
-    if(windowWidth < 415){
+    if(window.innerWidth < 415){
+      //iPhone 5/SE/6/7/8
       setWidth('310')
       setHeight('200')
-    }else if(windowWidth < 668){
+    }else if(window.innerWidth < 668){
+      //iPhone 6/7/8 Plus
       setWidth('400')
       setHeight('300')
-    }else if(windowWidth > 668){
+    }else if(window.innerWidth > 668){
+      //iPad and PC
       setWidth('640')
       setHeight('360')
     }
@@ -113,14 +119,9 @@ const AppCopy = () => {
     let youTubeLinkList = []
     let videoIDsThatContain = []
     try {
-      console.log('inside try', query)
       subtitles.forEach(subtitle => {
         if(contains(query, subtitle.text)){
-          console.log('inside subtitles')
-          console.log(true)
-          console.log(subtitle.id)
           videoIDsThatContain.push(subtitle.videoId)
-          console.log(videoIDsThatContain)
         }
       })
       youTubeLinkList = buildYouTubeLinkArray(query, videoIDsThatContain, subtitles)
@@ -171,19 +172,6 @@ const AppCopy = () => {
   }
   ////handleSubmit ends
 
-  /*
-  window.addEventListener('resize', (event) => {
-    event.preventDefault()
-    if(window.innerWidth < 415){
-      setWidth('310')
-    }else if(window.innerWidth < 668){
-      setWidth('400')
-    }else if(window.innerWidth > 668){
-      setWidth('640')
-    }
-  })
-  */
-
   //opts starts
   const opts = {
     height: height,
@@ -226,10 +214,33 @@ const AppCopy = () => {
       setPlayingVideoTime(time)
 
       if(videoId === currentVideoId && time === playingVideoTime){
+        /*
         if(width === '640'){
           setWidth('640.1')
-        } else {
+        } else if (width === '640.1') {
           setWidth('640')
+        }
+        */
+
+        switch (width) {
+        case '640':
+          setWidth('640.1')
+          break
+        case '640.1':
+          setWidth('640')
+          break
+        case '400':
+          setWidth('400.1')
+          break
+        case '400.1':
+          setWidth('400')
+          break
+        case '310':
+          setWidth('310.1')
+          break
+        case '310.1':
+          setWidth('310')
+          break
         }
       }
 
@@ -246,10 +257,25 @@ const AppCopy = () => {
   const handleKörOm = async(event) => {
     event.preventDefault()
     setShowSubtitle(true)
-    if(width === '640'){
+    switch (width) {
+    case '640':
       setWidth('640.1')
-    } else {
+      break
+    case '640.1':
       setWidth('640')
+      break
+    case '400':
+      setWidth('400.1')
+      break
+    case '400.1':
+      setWidth('400')
+      break
+    case '310':
+      setWidth('310.1')
+      break
+    case '310.1':
+      setWidth('310')
+      break
     }
   }
   //handleKörOm ends
@@ -264,12 +290,25 @@ const AppCopy = () => {
       let time = youTubeLinks[videoIndex+1].time
       setPlayingVideoTime(time)
 
-      if(videoId === currentVideoId && time === playingVideoTime){
-        if(width === '640'){
-          setWidth('640.1')
-        } else {
-          setWidth('640')
-        }
+      switch (width) {
+      case '640':
+        setWidth('640.1')
+        break
+      case '640.1':
+        setWidth('640')
+        break
+      case '400':
+        setWidth('400.1')
+        break
+      case '400.1':
+        setWidth('400')
+        break
+      case '310':
+        setWidth('310.1')
+        break
+      case '310.1':
+        setWidth('310')
+        break
       }
 
       let currentWholeText = youTubeLinks[videoIndex+1].wholeText
