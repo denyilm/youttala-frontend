@@ -1,4 +1,5 @@
-﻿/* eslint-disable no-unused-vars */
+﻿/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import subtitleService from './services/subtitles'
 import contains from './functions/contains'
@@ -38,6 +39,12 @@ const AppCopy = () => {
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
 
+  const randomWords = ['skillnad', 'stark', 'tyckte', 'ärtsoppa',
+    'sovit', 'behagligt', 'kör', 'sig', 'riktig',
+    'möjligtvis', 'bollhjul', 'byggt', 'dagar',
+    'stenhårda', 'fyra', 'tittarna', 'skrynkliga',
+    'noggrann', 'badkar', 'jättekul', 'läskigt',
+    'börjar', 'själv', 'självklart', 'försiktig']
 
   /*
   useEffect(() => {
@@ -156,7 +163,9 @@ const AppCopy = () => {
         setAutoplay(0)
         setShowStats(false)
         setYouTubeLinks([])
-        let text = `nothing found for ${query}, try 'skillnad'`
+        let length = randomWords.length - 1
+        let word = randomWords[[Math.floor(Math.random()*length)]]
+        let text = `nothing found for ${query}, try "${word}"`
         setShownSubtitles(text)
         let shownSubtitlesArr = text.split(/[\s\n]+/)
         setShownSubtitlesArr(shownSubtitlesArr)

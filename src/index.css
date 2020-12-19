@@ -118,8 +118,8 @@ padding-right: 2rem;
 .container {
   align-items: center;
   text-align: center;
-  background-color: #A0CFFA;
-  width: 660px;
+  background: linear-gradient(0deg, rgba(234,250,255,1) 7%, rgba(160,207,250,1) 100%);
+  width: 680px;
   margin: 0 auto;
   height: 100vh;
   margin-top: 35px;
@@ -170,10 +170,10 @@ padding-right: 2rem;
 
 .player {
   background-color: #EAF2EF;
-  max-width: 643px;
+  max-width: 642px;
   align-content: center;
   height: 411px;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 5px;
   box-sizing: border-box;
   margin: 0 auto;
@@ -269,7 +269,7 @@ padding-right: 2rem;
   align-items: center;
   box-sizing: border-box;
   border-radius: 5px;
-  border: 2px solid;
+  border: 1px solid;
   font-size: 15px;
   display: flex;
   flex-direction: column;
