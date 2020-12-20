@@ -14,28 +14,23 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Poppins', sans-serif;
 }
 
 ::-webkit-input-placeholder {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Poppins', sans-serif;
 }
 
 ::-moz-placeholder {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Poppins', sans-serif;
 }
 
 :-ms-input-placeholder {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Poppins', sans-serif;
 }
 
 ::placeholder {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1 {
@@ -183,8 +178,8 @@ padding-right: 2rem;
   text-align: center;
   background: linear-gradient(0deg, rgba(234,250,255,1) 7%, rgba(160,207,250,1) 100%);
   width: 680px;
-  margin: 0 auto;
   height: 100vh;
+  margin: 0 auto;
   margin-top: 35px;
 }
 
@@ -604,3 +599,13 @@ iPhone 5/SE/6/7/8
 
 }
 
+@media (max-height: 600px) {
+  #about-container {
+    height: auto;
+  }
+
+  .container{
+    height: auto;
+    padding-bottom: 31px;
+  }
+}

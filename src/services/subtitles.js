@@ -1,8 +1,8 @@
 ﻿/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
-//const baseUrl = 'http://localhost:3001/subtitles'
-const baseUrl = '/api/subtitles'
+const baseUrl = 'http://localhost:3001/subtitles'
+//const baseUrl = '/api/subtitles'
 // eslint-disable-next-line linebreak-style
 const aboutUrl = '/api/about'
 

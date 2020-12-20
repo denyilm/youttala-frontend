@@ -1,4 +1,5 @@
-﻿/* eslint-disable no-unused-vars */
+﻿/* eslint-disable linebreak-style */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { FaHeadphones } from 'react-icons/fa'
 import { FaExclamationCircle, FaAngleDown, FaAngleUp, FaSpinner } from 'react-icons/fa'
@@ -19,9 +20,9 @@ const About = (props) => {
         Welcome to youttala!
         <br></br>
         <br></br>
-        youttala is a web application where swedish learners can instantly learn how
-        swedish words are actually pronounced by watcing YouTube!
-        In youttala, you can hear the pronuncuation of a word from real Swedish speakers in real use cases!
+        youttala is a web application where Swedish learners can instantly learn how
+        Swedish words are actually pronounced by watching YouTube!
+        In youttala, you can hear the pronunciation of a word from real Swedish speakers in real use cases!
         Just type the word you want to hear and search.
         <br></br>
         <br></br>
@@ -41,8 +42,8 @@ const About = (props) => {
         this sign <FaExclamationCircle size={10}/> that is located in the right-bottom corner of the player console.
             <br></br>
             <br></br>
-            <FaSpinner size={10}/> By bugs we mean unmatching subtitles. Sometimes,
-        the piece of subtitle could be a pharaphrased version of what is said rather than word by word captions.
+            <FaSpinner size={10}/> By bugs, we mean unmatching subtitles. Sometimes,
+        the piece of subtitle could be a paraphrased version of what is said rather than word by word captions.
         We would like to identify and remove those instances to provide you a better experience!
           </div>
         </div>

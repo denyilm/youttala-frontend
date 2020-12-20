@@ -460,36 +460,38 @@ const AppCopy1 = () => {
         handleCorrect={() => handleCorrect(currentSubtitle, bugId)}
         adminMessage3={adminMessage3}
       />
-      <div className='container'>
-        <SearchBar
-          query={query}
-          handleQueryChange={handleQueryChange}
-          handleSubmit={handleSubmit}/>
-        <div className='player-all'>
-          <Player
-            videoId={currentVideoId}
-            opts={opts}
-            containerClassName={youTubeContainerClassName}
-            handleBack={handleBack}
-            handleKörOm={handleKörOm}
-            handleNext={handleNext}
-            onPlay={onPlay}
-            showStats={showStats}
-            videoIndex={videoIndex+1}
-            length={youTubeLinks.length}
-            handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
+      <div>
+        <div className='container'>
+          <SearchBar
+            query={query}
+            handleQueryChange={handleQueryChange}
+            handleSubmit={handleSubmit}/>
+          <div className='player-all'>
+            <Player
+              videoId={currentVideoId}
+              opts={opts}
+              containerClassName={youTubeContainerClassName}
+              handleBack={handleBack}
+              handleKörOm={handleKörOm}
+              handleNext={handleNext}
+              onPlay={onPlay}
+              showStats={showStats}
+              videoIndex={videoIndex+1}
+              length={youTubeLinks.length}
+              handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
+            />
+          </div>
+          <Subtitle
+            showSubtitle={showSubtitle}
+            shownSubtitles={shownSubtitles}
+            shownSubtitlesArr={shownSubtitlesArr}
+            handleShow={handleShow}
+            handleHide={handleHide}
+            query={query}
           />
         </div>
-        <Subtitle
-          showSubtitle={showSubtitle}
-          shownSubtitles={shownSubtitles}
-          shownSubtitlesArr={shownSubtitlesArr}
-          handleShow={handleShow}
-          handleHide={handleHide}
-          query={query}
-        />
+        <Footer/>
       </div>
-      <Footer/>
     </div>
   )
 
