@@ -8,8 +8,8 @@ const SearchBar = (props) => {
   return (
     <div>
       <form className="form" onSubmit = {props.handleSubmit}>
-        <input autoFocus className="searchbar" value={props.query} type='text' placeholder='Hur uttalar man...' onChange={props.handleQueryChange}></input>
-        <button className="search-button" type='submit'>Search</button>
+        <input autoFocus className="searchbar" value={props.query} type='text' placeholder='hur uttalar man...' onChange={props.handleQueryChange}></input>
+        <button className="search-button" type='submit'>search</button>
       </form>
     </div>
   )

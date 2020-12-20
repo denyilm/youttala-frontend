@@ -18,6 +18,26 @@ code {
     monospace;
 }
 
+::-webkit-input-placeholder {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+::-moz-placeholder {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+:-ms-input-placeholder {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+::placeholder {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
 h1 {
   font-weight: 100px;
 }
@@ -42,7 +62,7 @@ h1 {
 
 .main-nav ul {
   height: 12px;
-  width: 300px;
+  width: 150px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,7 +74,7 @@ h1 {
 
 .footer-nav ul {
   height: 12px;
-  width: 200px;
+  width: 300px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,12 +98,12 @@ padding-right: 2rem;
 
 .footer-nav a {
   color: inherit;
-  font-weight: 500;
+  font-weight: 400;
   text-decoration: none;
 }
 
 .footer-nav  a{
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .main-nav a:hover, .footer-nav a:hover{
@@ -112,6 +132,49 @@ padding-right: 2rem;
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+#contact{
+  vertical-align: middle;
+  font-size: 10px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  font-weight: 400;
+}
+
+#contact-small{
+  vertical-align: middle;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  position: absolute;
+  right: 10px;
+  top: 1px;
+  font-weight: 400;
+  visibility: hidden;
+}
+
+#e-mail-a:hover{
+  cursor: pointer;
+}
+
+
+#e-mail-a{
+  font-size: 10px;
+  text-decoration: none;
+  color: black;
+  right: 10px;
+  top: 2px;
+  font-weight: 400;
+}
+
+#copyright{
+  font-size: 10px;
 }
 
 
@@ -149,7 +212,7 @@ padding-right: 2rem;
 }
 
 .search-button {
-  width: 131px;
+  width: 100px;
   height: 23px;
   box-sizing: border-box;
   border-radius: 3px;
@@ -167,6 +230,10 @@ padding-right: 2rem;
   background-color: rgb(40, 40, 40);
 }
 
+.header-button:hover{
+  cursor: pointer
+}
+
 
 .player {
   background-color: #EAF2EF;
@@ -174,7 +241,9 @@ padding-right: 2rem;
   align-content: center;
   height: 411px;
   border: 1px solid;
-  border-radius: 5px;
+  border-radius: 2px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -363,6 +432,59 @@ padding-right: 2rem;
   font-size: 23px;
 }
 
+#main-container-about{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#about-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+#about-title{
+  text-align: left;
+  font-weight: normal;
+}
+
+#about-description{
+  text-align: left;
+  font-size: 13px;
+}
+
+#guideline{
+  margin-top: 20px;
+  font-size: 11px;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center
+}
+
+#guideline-content{
+  width: 95%;
+}
+
+#kör-bara{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#kör-bara:hover{
+  cursor: pointer;
+  font-size:21px;
+}
+
+.angle:hover{
+  cursor: pointer;
+}
+
 /*
 iPhone 5/SE 320x568
 iPhone 6/7/8 375x667
@@ -410,6 +532,18 @@ iPhone 6/7/8 Plus
   .subtitle {
     font-size: 12px;
     }
+
+  #about-container{
+    margin-top: 0px;
+  }
+
+  #contact{
+    visibility: hidden;
+  }
+
+  #contact-small{
+    visibility: visible;
+  }
 }
 
 /*
@@ -445,5 +579,28 @@ iPhone 5/SE/6/7/8
   .first-subtitle{
     font-size: 14px;
   }
+
+  #about-container{
+    margin-top: 40px;
+    font-size: 14px;
+    width: 95%;
+  }
+
+  #about-description{
+    font-size: 10px;
+  }
+
+  #guideline{
+    font-size: 10px;
+  }
+
+  #contact{
+    visibility: hidden;
+  }
+
+  #contact-small{
+    visibility: visible;
+  }
+
 }
 

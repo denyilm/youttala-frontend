@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import AppCopy from './AppCopy'
 import ComingSoon from './ComingSoon'
+import AppCopy1 from './AppCopy1'
 
 
 ReactDOM.render(
-  <AppCopy />,
+  <AppCopy1 />,
   document.getElementById('root')
 )

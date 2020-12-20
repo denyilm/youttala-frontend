@@ -21,7 +21,7 @@ const Subtitle = ({ shownSubtitles, shownSubtitlesArr, showSubtitle, handleShow,
   const beforeSearch = () => (
     <div className="first-subtitle">
       <div className="yarrak">
-        You may find your search result here!
+        you can find your search result here!
       </div>
     </div>
   )

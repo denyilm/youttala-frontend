@@ -11,8 +11,9 @@ import Player from './components/Player'
 import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
 import AdminBar from './components/AdminBar'
+import About from './components/About'
 
-const AppCopy = () => {
+const AppCopy1 = () => {
   const [subtitles, setSubtitles] = useState([])
   const [query, setQuery] = useState('')
   const [youTubeLinks, setYouTubeLinks] = useState([])
@@ -31,6 +32,8 @@ const AppCopy = () => {
   const [youTubeContainerClassName, setYouTubeContainerClassName] = useState('iFrame')
   const [autoplay, setAutoplay] = useState(0)
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
+  const [about, setAbout] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
   //for admin to manage removing buggy lines
   const [queryVideoId, setQueryVideoId] = useState('')
   const [bugId, setBugId] = useState('')
@@ -98,16 +101,28 @@ const AppCopy = () => {
     }
   })
 
-
-  /*
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/subtitles')
-      .then(response => {
-        setSubtitles(response.data)
-      })
-  }, [])
-  */
+  let updateWidth = () => {
+    switch (width) {
+    case '640':
+      setWidth('640.1')
+      break
+    case '640.1':
+      setWidth('640')
+      break
+    case '400':
+      setWidth('400.1')
+      break
+    case '400.1':
+      setWidth('400')
+      break
+    case '310':
+      setWidth('310.1')
+      break
+    case '310.1':
+      setWidth('310')
+      break
+    }
+  }
 
   //hide/show starts
 
@@ -140,11 +155,7 @@ const AppCopy = () => {
       setPlayingVideoTime(time)
 
       if(videoId === currentVideoId && time === playingVideoTime){
-        if(width === '640'){
-          setWidth('640.1')
-        } else {
-          setWidth('640')
-        }
+        updateWidth()
       }
 
       let currentWholeText = youTubeLinkList[0].wholeText
@@ -156,7 +167,7 @@ const AppCopy = () => {
       setShowStats(true)
     } catch (error) {
       if(videoIDsThatContain.length === 0) {
-        setCurrentVideoId('5bfx6BNufdE')
+        setCurrentVideoId('vfQU6pI51ww')
         setWholeText([])
         setFirstTimeIndex(0)
         setPlayingVideoTime(0)
@@ -165,7 +176,7 @@ const AppCopy = () => {
         setYouTubeLinks([])
         let length = randomWords.length - 1
         let word = randomWords[[Math.floor(Math.random()*length)]]
-        let text = `nothing found for ${query}, try "${word}"`
+        let text = `nothing found for ${query}, try '${word}'`
         setShownSubtitles(text)
         let shownSubtitlesArr = text.split(/[\s\n]+/)
         setShownSubtitlesArr(shownSubtitlesArr)
@@ -223,34 +234,7 @@ const AppCopy = () => {
       setPlayingVideoTime(time)
 
       if(videoId === currentVideoId && time === playingVideoTime){
-        /*
-        if(width === '640'){
-          setWidth('640.1')
-        } else if (width === '640.1') {
-          setWidth('640')
-        }
-        */
-
-        switch (width) {
-        case '640':
-          setWidth('640.1')
-          break
-        case '640.1':
-          setWidth('640')
-          break
-        case '400':
-          setWidth('400.1')
-          break
-        case '400.1':
-          setWidth('400')
-          break
-        case '310':
-          setWidth('310.1')
-          break
-        case '310.1':
-          setWidth('310')
-          break
-        }
+        updateWidth()
       }
 
       let currentWholeText = youTubeLinks[videoIndex-1].wholeText
@@ -266,26 +250,7 @@ const AppCopy = () => {
   const handleKörOm = async(event) => {
     event.preventDefault()
     setShowSubtitle(true)
-    switch (width) {
-    case '640':
-      setWidth('640.1')
-      break
-    case '640.1':
-      setWidth('640')
-      break
-    case '400':
-      setWidth('400.1')
-      break
-    case '400.1':
-      setWidth('400')
-      break
-    case '310':
-      setWidth('310.1')
-      break
-    case '310.1':
-      setWidth('310')
-      break
-    }
+    updateWidth()
   }
   //handleKörOm ends
 
@@ -298,28 +263,7 @@ const AppCopy = () => {
       setCurrentVideoId(videoId)
       let time = youTubeLinks[videoIndex+1].time
       setPlayingVideoTime(time)
-
-      switch (width) {
-      case '640':
-        setWidth('640.1')
-        break
-      case '640.1':
-        setWidth('640')
-        break
-      case '400':
-        setWidth('400.1')
-        break
-      case '400.1':
-        setWidth('400')
-        break
-      case '310':
-        setWidth('310.1')
-        break
-      case '310.1':
-        setWidth('310')
-        break
-      }
-
+      updateWidth()
       let currentWholeText = youTubeLinks[videoIndex+1].wholeText
       setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinks[videoIndex+1].firstTimeIndex
@@ -479,11 +423,31 @@ const AppCopy = () => {
   }
   //handleCorrect ends
 
+  const handleHome = async(event) => {
+    event.preventDefault()
+    updateWidth()
+    setAbout(false)
+  }
 
-
-  return (
+  const aboutPage = () => (
     <div>
-      <Header/>
+      <Header
+        about ={() => setAbout(true)}
+        home = {() => setAbout(false)}
+      />
+      <div id='main-container-about' className='container'>
+        <About handleKörBara={() => setAbout(false)}/>
+      </div>
+      <Footer/>
+    </div>
+  )
+
+  const appItself = () => (
+    <div>
+      <Header
+        about ={() => setAbout(true)}
+        home = {handleHome}
+      />
       <AdminBar
         queryVideoId = {queryVideoId}
         handleQueryVideoIdChange = {handleQueryVideoIdChange}
@@ -528,6 +492,12 @@ const AppCopy = () => {
       <Footer/>
     </div>
   )
+
+  return (
+    <div>
+      {about ? aboutPage() : appItself()}
+    </div>
+  )
 }
 
-export default AppCopy
+export default AppCopy1

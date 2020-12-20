@@ -1,7 +1,7 @@
 ﻿/* eslint-disable no-unused-vars */
 import React from 'react'
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div className="main-header">
       <a href="/" className="brand-logo">
@@ -9,9 +9,8 @@ const Header = () => {
       </a>
       <div className="main-nav">
         <ul>
-          <li><a href="#">about</a></li>
-          <li><a href="#">news</a></li>
-          <li><a href="#">contact</a></li>
+          <li><a className='header-button' onClick={props.home}>home</a></li>
+          <li><a className='header-button' onClick={props.about}>about</a></li>
         </ul>
       </div>
     </div>
