@@ -1,7 +1,7 @@
-﻿/* eslint-disable quotes */
-/* eslint-disable linebreak-style */
+﻿/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import subtitleService from './services/subtitles'
 import contains from './functions/contains'
 import buildYouTubeLinkArray from './functions/buildYouTubeLinkArray'
@@ -13,23 +13,14 @@ import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
 import AdminBar from './components/AdminBar'
 import About from './components/About'
-import { FaSpinner, FaCog, FaRegSnowflake } from 'react-icons/fa'
-import ReactGA, { set } from 'react-ga'
-import Progress from './components/Progress'
 
-
-//ReactGA.initialize('G-QVN49KPS52')
-
-
-const AppCopy1 = () => {
+const AppCopy2 = () => {
   const [subtitles, setSubtitles] = useState([])
-  const [appReady, setAppReady] = useState(false)
-  const [firstProgress, setFirstProgress] = useState(true)
   const [query, setQuery] = useState('')
   const [youTubeLinks, setYouTubeLinks] = useState([])
   const [videoIndex, setVideoIndex] = useState(0)
-  const [currentVideoId, setCurrentVideoId] = useState('vfQU6pI51ww')
-  const [wholeText, setWholeText] = useState([]) //the text part of the playing subtitle
+  const [currentVideoId, setCurrentVideoId] = useState('G_O0N3R-Lv8')
+  //const [wholeText, setWholeText] = useState([]) //the text part of the playing subtitle
   const [shownSubtitles, setShownSubtitles] = useState(null)
   const [shownSubtitlesArr, setShownSubtitlesArr] = useState([])
   const [showSubtitle ,setShowSubtitle] = useState(false)
@@ -44,6 +35,8 @@ const AppCopy1 = () => {
   const [firstTimeIndex, setFirstTimeIndex] = useState(0)
   const [about, setAbout] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
+  const [appReady, setAppReady] = useState(false)
+  const [timeoutId, setTimeoutId] = useState(null)
   //for admin to manage removing buggy lines
   const [queryVideoId, setQueryVideoId] = useState('')
   const [bugId, setBugId] = useState('')
@@ -51,6 +44,7 @@ const AppCopy1 = () => {
   const [currentSubtitle, setCurrentSubtitle] = useState(null)
   const [adminMessage2, setAdminMessage2] = useState('')
   const [adminMessage3, setAdminMessage3] = useState('')
+  const history = useHistory()
 
   const randomWords = [
     'skillnad', 'stark', 'tycker',
@@ -66,13 +60,6 @@ const AppCopy1 = () => {
     'försiktig', 'allvarligt', 'läget'
   ]
 
-  /*
-  useEffect(() => {
-    setWindowWidth(window.innerWidth)
-    setWindowHeight(window.innerHeight)
-  })
-  */
-
   //iPhone 5/SE 320x568
   //iPhone 6/7/8 375x667
   //iPhone 6/7/8 Plus 414x736
@@ -80,56 +67,15 @@ const AppCopy1 = () => {
   //iPad 768x1024
   //iPad Pro 1024x1366
 
-  /*
   useEffect(() => {
-    //ReactGA.initialize('G-QVN49KPS52')
-    subtitleService
-      .getAll()
-      .then(subtitles => {
-        const end = Date.now()
-        setTimeReady(end)
-        setSubtitles(subtitles)
-      })
-    //ReactGA.pageview('/')
-  },[])
-  */
-
-  useEffect(() => {
-  //ReactGA.initialize('G-QVN49KPS52')
     subtitleService
       .getAll()
       .then(subtitles => {
         setSubtitles(subtitles)
-        setFirstProgress(false)
-        setTimeout(() => {
-          setAppReady(true)
-        }, 31)
+        setAppReady(true)
+        history.push('/')
       })
-  //ReactGA.pageview('/')
   },[])
-
-  /*
-  const newStyle = {
-    opacity: 1,
-    width: `${done}%`,
-    transition : `${3}s ease 0.3s`,
-  }
-
-  setStyle(newStyle)
-  */
-
-  useEffect(() => {
-    ReactGA.initialize('UA-186348116-1')
-    ReactGA.pageview('/')
-  },[])
-
-  /*
-  useEffect(() => {
-    setTimeout(() => {
-      setAppReady(true)
-    }, 2300)
-  },[])
-  */
 
   useEffect(() => {
     if(window.innerWidth < 415){
@@ -185,148 +131,97 @@ const AppCopy1 = () => {
   }
 
   //hide/show starts
-
   const showWhenVisible = { display: showSubtitle ? '' : 'none' }
   const showStatsWhenVisible = { display: showStats ? '' : 'none' }
-
   //hide/shoe ends
 
   //handleQueryChange starts
   const handleQueryChange = (event) => setQuery(event.target.value)
+  //handleQueryChange starts
+
+  //S-setAfterSearch
+  const setAfterSearch = (youTubeLinkList) => {
+    setYouTubeLinks(youTubeLinkList)
+    setVideoIndex(0)
+    let videoId = youTubeLinkList[0].videoId
+    setCurrentVideoId(videoId)
+    let time = youTubeLinkList[0].time
+    setPlayingVideoTime(time)
+
+    if(videoId === currentVideoId && time === playingVideoTime){
+      updateWidth()
+    }
+
+    let firstTimeIndex = youTubeLinkList[0].firstTimeIndex
+    setFirstTimeIndex(firstTimeIndex)
+    setAutoplay(1)
+    setShowSubtitle(false)
+    setShowStats(true)
+  }
+  //E-setAfterSearch
+
+  //s-resetApp
+  const resetQuery = ( query, text ) => {
+    setCurrentVideoId('G_O0N3R-Lv8')
+    //setWholeText([])
+    setFirstTimeIndex(0)
+    setPlayingVideoTime(0)
+    setAutoplay(0)
+    setShowStats(false)
+    setYouTubeLinks([])
+    let length = randomWords.length - 1
+    let word = randomWords[[Math.floor(Math.random()*length)]]
+    let shownText = `${text}${query}, try '${word}'`
+    setShownSubtitles(shownText)
+    let shownSubtitlesArr = shownText.split(/[\s\n]+/)
+    setShownSubtitlesArr(shownSubtitlesArr)
+    setShowSubtitle(true)
+    window.clearTimeout(timeoutId)
+  }
+  //e-resetApp
 
   //handleSubmit starts
   const handleSubmit = async(event) => {
     event.preventDefault()
-    console.log(query)
+    //console.log(query)
     let youTubeLinkList = []
     let videoIDsThatContain = []
     if(query !== ''){
       try {
-        //this loop instead of forEach
-        /*
-        for(let i = 0 ; i < subtitles.length - 1 ; i++){
-          let subtitle = subtitles[i]
-          if(contains(query, subtitle.text)){
-            videoIDsThatContain.push(subtitle.videoId)
-          }
+        if(appReady){
+          subtitles.forEach(subtitle => {
+            if(contains(query, subtitle.text)){
+              videoIDsThatContain.push(subtitle.videoId)
+            }
+          })
+          youTubeLinkList = buildYouTubeLinkArray(query, videoIDsThatContain, subtitles)
+          setAfterSearch(youTubeLinkList)
+          //console.log('done from frontend')
+        } else {
+          subtitleService.getResults(query)
+            .then(response => {
+              youTubeLinkList = response.youTubeLinkList
+              //console.log(youTubeLinkList.length)
+              videoIDsThatContain = response.videoIDsThatContain
+              if(videoIDsThatContain.length === 0){
+                resetQuery( query, 'nothing found for ' )
+              } else {
+                setAfterSearch(youTubeLinkList)
+              }
+              //console.log('done from backend')
+            })
         }
-        */
-        subtitles.forEach(subtitle => {
-          if(contains(query, subtitle.text)){
-            videoIDsThatContain.push(subtitle.videoId)
-          }
-        })
-        youTubeLinkList = buildYouTubeLinkArray(query, videoIDsThatContain, subtitles)
-        setYouTubeLinks(youTubeLinkList)
-        setVideoIndex(0)
-        let videoId = youTubeLinkList[0].id
-        setCurrentVideoId(videoId)
-        let time = youTubeLinkList[0].time
-        setPlayingVideoTime(time)
-
-        if(videoId === currentVideoId && time === playingVideoTime){
-          updateWidth()
-        }
-
-        let currentWholeText = youTubeLinkList[0].wholeText
-        setWholeText(currentWholeText)
-        let firstTimeIndex = youTubeLinkList[0].firstTimeIndex
-        setFirstTimeIndex(firstTimeIndex)
-        setAutoplay(1)
-        setShowSubtitle(false)
-        setShowStats(true)
       } catch (error) {
         if(videoIDsThatContain.length === 0) {
-          setCurrentVideoId('vfQU6pI51ww')
-          setWholeText([])
-          setFirstTimeIndex(0)
-          setPlayingVideoTime(0)
-          setAutoplay(0)
-          setShowStats(false)
-          setYouTubeLinks([])
-          let length = randomWords.length - 1
-          let word = randomWords[[Math.floor(Math.random()*length)]]
-          let text = `nothing found for ${query}, try '${word}'`
-          setShownSubtitles(text)
-          let shownSubtitlesArr = text.split(/[\s\n]+/)
-          setShownSubtitlesArr(shownSubtitlesArr)
-          setShowSubtitle(true)
-          /*
-          setTimeout(() => {
-            setShownSubtitles(null)
-            setShowSubtitle(false)
-          }, 5000)
-          */
+          resetQuery( query, 'nothing found for ' )
         }
       }
     } else {
-      setCurrentVideoId('vfQU6pI51ww')
-      setWholeText([])
-      setFirstTimeIndex(0)
-      setPlayingVideoTime(0)
-      setAutoplay(0)
-      setShowStats(false)
-      setYouTubeLinks([])
-      let length = randomWords.length - 1
-      let word = randomWords[[Math.floor(Math.random()*length)]]
-      let text = `Please type something, try '${word}'`
-      setShownSubtitles(text)
-      let shownSubtitlesArr = text.split(/[\s\n]+/)
-      setShownSubtitlesArr(shownSubtitlesArr)
-      setShowSubtitle(true)
+      resetQuery( query, 'please type something' )
     }
-    /*
-    try {
-      subtitles.forEach(subtitle => {
-        if(contains(query, subtitle.text)){
-          videoIDsThatContain.push(subtitle.videoId)
-        }
-      })
-      youTubeLinkList = buildYouTubeLinkArray(query, videoIDsThatContain, subtitles)
-      setYouTubeLinks(youTubeLinkList)
-      setVideoIndex(0)
-      let videoId = youTubeLinkList[0].id
-      setCurrentVideoId(videoId)
-      let time = youTubeLinkList[0].time
-      setPlayingVideoTime(time)
-
-      if(videoId === currentVideoId && time === playingVideoTime){
-        updateWidth()
-      }
-
-      let currentWholeText = youTubeLinkList[0].wholeText
-      setWholeText(currentWholeText)
-      let firstTimeIndex = youTubeLinkList[0].firstTimeIndex
-      setFirstTimeIndex(firstTimeIndex)
-      setAutoplay(1)
-      setShowSubtitle(false)
-      setShowStats(true)
-    } catch (error) {
-      if(videoIDsThatContain.length === 0) {
-        setCurrentVideoId('vfQU6pI51ww')
-        setWholeText([])
-        setFirstTimeIndex(0)
-        setPlayingVideoTime(0)
-        setAutoplay(0)
-        setShowStats(false)
-        setYouTubeLinks([])
-        let length = randomWords.length - 1
-        let word = randomWords[[Math.floor(Math.random()*length)]]
-        let text = `nothing found for ${query}, try '${word}'`
-        setShownSubtitles(text)
-        let shownSubtitlesArr = text.split(/[\s\n]+/)
-        setShownSubtitlesArr(shownSubtitlesArr)
-        setShowSubtitle(true)
-        /*
-        setTimeout(() => {
-          setShownSubtitles(null)
-          setShowSubtitle(false)
-        }, 5000)
-      }
-    }
-    */
   }
   ////handleSubmit ends
+
 
   //opts starts
   const opts = {
@@ -345,16 +240,21 @@ const AppCopy1 = () => {
 
   //onPlay starts
   const onPlay = (event) => {
-    if(wholeText.length>0){
-      let theTextBetweenTwoStamps = tillTheNextStamp(playingVideoTime, firstTimeIndex, wholeText)
-      setShownSubtitles(theTextBetweenTwoStamps.text)
-      let shownSubtitlesArr = theTextBetweenTwoStamps.text.split(/[\s\n]+/)
+    if(youTubeLinks.length > 0) {
+      window.clearTimeout(timeoutId)
+      let youTubeLink = youTubeLinks[videoIndex]
+      //console.log(youTubeLink)
+      let theTextBetweenTwoStamps = youTubeLink.shownSubtitles
+      //console.log(theTextBetweenTwoStamps)
+      setShownSubtitles(theTextBetweenTwoStamps)
+      let shownSubtitlesArr = theTextBetweenTwoStamps.split(/[\s\n]+/)
       setShownSubtitlesArr(shownSubtitlesArr)
       setShowSubtitle(true)
-      let timeOut = theTextBetweenTwoStamps.timeDifference*1000
-      setTimeout(() => {
+      let timeOut = youTubeLink.timeDifference*1000 + 300
+      let NewTimeoutId = window.setTimeout(() => {
         setShowSubtitle(false)
       }, timeOut)
+      setTimeoutId(NewTimeoutId)
     }
   }
   //onPlay ends
@@ -364,7 +264,7 @@ const AppCopy1 = () => {
     event.preventDefault()
     if(videoIndex >= 1){
       setVideoIndex(videoIndex-1)
-      let videoId = youTubeLinks[videoIndex-1].id
+      let videoId = youTubeLinks[videoIndex-1].videoId
       setCurrentVideoId(videoId)
       let time = youTubeLinks[videoIndex-1].time
       setPlayingVideoTime(time)
@@ -372,9 +272,8 @@ const AppCopy1 = () => {
       if(videoId === currentVideoId && time === playingVideoTime){
         updateWidth()
       }
-
-      let currentWholeText = youTubeLinks[videoIndex-1].wholeText
-      setWholeText(currentWholeText)
+      //let currentWholeText = youTubeLinks[videoIndex-1].wholeText
+      //setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinks[videoIndex-1].firstTimeIndex
       setFirstTimeIndex(firstTimeIndex)
       setShowSubtitle(false)
@@ -395,13 +294,13 @@ const AppCopy1 = () => {
     event.preventDefault()
     if(videoIndex < (youTubeLinks.length-1)){
       setVideoIndex(videoIndex+1)
-      let videoId = youTubeLinks[videoIndex+1].id
+      let videoId = youTubeLinks[videoIndex+1].videoId
       setCurrentVideoId(videoId)
       let time = youTubeLinks[videoIndex+1].time
       setPlayingVideoTime(time)
       updateWidth()
-      let currentWholeText = youTubeLinks[videoIndex+1].wholeText
-      setWholeText(currentWholeText)
+      //let currentWholeText = youTubeLinks[videoIndex+1].wholeText
+      //setWholeText(currentWholeText)
       let firstTimeIndex = youTubeLinks[videoIndex+1].firstTimeIndex
       setFirstTimeIndex(firstTimeIndex)
       setShowSubtitle(false)
@@ -410,18 +309,23 @@ const AppCopy1 = () => {
   //handleBack ends
 
   //handleBug starts
-  const handleBug = async(subtitleObject) => {
-    console.log(subtitleObject.videoId)
+  const handleBug = async(videoId) => {
+    console.log(videoId)
+    let subtitleObject = {}
     try {
-      /*
+      subtitleObject = await subtitleService.getOne(videoId)
+        .then(response => response
+        )
+      //console.log(subtitleObject)
       let buggyLines = subtitleObject.buggyLines
+      //console.log(subtitleObject.buggyLines)
       const youTubeLink = youTubeLinks[videoIndex]
       const timeStamp = youTubeLink.timeStamp
       const hour = timeStamp.substring(0,2)
       const minutes = timeStamp.substring(3,5)
       const seconds = timeStamp.substring(6,8)
       const mseconds = timeStamp.substring(9,12)
-      const bugId = `${youTubeLink.id}_${hour}${minutes}${seconds}${mseconds}`
+      const bugId = `${youTubeLink.videoId}_${hour}${minutes}${seconds}${mseconds}`
 
       //buggyLines = []
 
@@ -449,7 +353,7 @@ const AppCopy1 = () => {
       }else{
         console.log('already reported')
       }
-      */
+      //console.log('handleBug worked')
       window.confirm('You found and reported a bug! Thank you for helping us and other learners!')
     } catch (e) {
       console.log(e)
@@ -467,11 +371,11 @@ const AppCopy1 = () => {
   const handleQueryVideoIdChange = (event) => setQueryVideoId(event.target.value)
   const handleQueryBugIdChange = (event) => setBugId(event.target.value)
 
-  //find video by its id
+  //S-searchVideoById
   const searchVideoById = async(event) => {
     event.preventDefault()
     try {
-      setWholeText([])
+      //setWholeText([])
       setFirstTimeIndex(0)
       setPlayingVideoTime(0)
       setAutoplay(0)
@@ -492,7 +396,7 @@ const AppCopy1 = () => {
     } catch (error) {
       console.log(error)
       setAdminMessage1('There was an error, check the console')
-      setWholeText([])
+      //setWholeText([])
       setFirstTimeIndex(0)
       setPlayingVideoTime(0)
       setAutoplay(0)
@@ -501,10 +405,11 @@ const AppCopy1 = () => {
       setCurrentVideoId('5bfx6BNufdE')
     }
   }
+  //E-searchVideoById
 
+  //S-searchBugById
   const searchBugById = async(event) => {
     event.preventDefault()
-
     try {
       if(currentSubtitle.buggyLines.find(bug => bug.bugId === bugId)){
         setAdminMessage2(`${bugId} found`)
@@ -520,8 +425,8 @@ const AppCopy1 = () => {
       console.log(error)
       setAdminMessage2(`There was an error, see the console, ${bugId} not found`)
     }
-
   }
+  //E-searchBugById
 
   //handleCorrect starts
   const handleCorrect = async( subtitleObject, bugId ) => {
@@ -566,8 +471,8 @@ const AppCopy1 = () => {
     updateWidth()
     setAbout(false)
     setQuery('')
-    setCurrentVideoId('vfQU6pI51ww')
-    setWholeText([])
+    setCurrentVideoId('G_O0N3R-Lv8')
+    //setWholeText([])
     setFirstTimeIndex(0)
     setPlayingVideoTime(0)
     setAutoplay(0)
@@ -576,38 +481,50 @@ const AppCopy1 = () => {
     setShownSubtitles(null)
     setShownSubtitlesArr([])
     setShowSubtitle(false)
+    window.clearTimeout(timeoutId)
   }
   //reset ends
 
   const handleHome = async(event) => {
     event.preventDefault()
     reset()
+    history.push('/')
   }
 
   const handleLogoButton = async(event) => {
     event.preventDefault()
     reset()
+    history.push('/')
   }
 
+  const handleAbout = async(event) => {
+    event.preventDefault()
+    setAbout(true)
+    history.push('/about')
+  }
+
+  //S-aboutPage
   const aboutPage = () => (
     <div>
       <Header
         logo = {handleLogoButton}
-        about ={() => setAbout(true)}
+        about = {handleAbout}
         home = {handleHome}
       />
       <div id='main-container-about' className='container'>
-        <About handleKörBara={() => setAbout(false)}/>
+        <About handleKörBara={handleHome}/>
       </div>
       <Footer/>
     </div>
   )
+  //E-aboutPage
 
+  //S-appItself
   const appItself = () => (
     <div>
       <Header
         logo = {handleLogoButton}
-        about ={() => setAbout(true)}
+        about = {handleAbout}
         home = {handleHome}
       />
       <AdminBar
@@ -640,7 +557,7 @@ const AppCopy1 = () => {
               showStats={showStats}
               videoIndex={videoIndex+1}
               length={youTubeLinks.length}
-              handleBug={() => handleBug(subtitles.find(subtitle => subtitle.videoId === currentVideoId))}
+              handleBug={() => handleBug(currentVideoId)}
             />
           </div>
           <Subtitle
@@ -656,43 +573,13 @@ const AppCopy1 = () => {
       </div>
     </div>
   )
+  //E-appItself
 
-  if(!appReady) {
-    /*
-    return (
-      <div className="loading">
-        <span>youttala</span>
-        <span><FaRegSnowflake className='spinner' size={19}></FaRegSnowflake></span>
-      </div>
-    )
-    */
-    return (
-      <div className="loading">
-        <span>youttala</span>
-        <div style = {{ display: firstProgress ? '' : 'none' }}>
-          <Progress done={91} timeout={0}/>
-        </div>
-        <div style = {{ display: firstProgress ? 'none' : '' }}>
-          <Progress done={100} timeout={0}/>
-        </div>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        {about ? aboutPage() : appItself()}
-      </div>
-    )
-  }
-
-  /*
   return (
     <div>
       {about ? aboutPage() : appItself()}
     </div>
   )
-  */
-
 }
 
-export default AppCopy1
+export default AppCopy2

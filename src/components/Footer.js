@@ -20,7 +20,7 @@ const Footer = () => {
   */
   return (
     <div className="main-footer">
-      <span id='copyright'>&#169; 2020, youttala. all rights reserved.</span>
+      <span id='copyright'>&#169; 2021, youttala. all rights reserved.</span>
       <span title='contact' id='contact'>info@youttala.com <a id='e-mail-a' href="mailto:info@youttala.com"><FaRegPaperPlane/></a></span>
       <span title='contact' id='contact-small'><a id='e-mail-a' href="mailto:info@youttala.com"><FaRegPaperPlane/></a></span>
     </div>

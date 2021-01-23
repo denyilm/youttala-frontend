@@ -29,27 +29,26 @@ const About = (props) => {
          We hope that youttala would be a useful tool and wish you good luck in the learning journey!
         <br></br>
         <br></br>
-        <span>Before we start, please take a look at the quick guideline!
-          <a className='angle' style={{ display: showGuide ? 'none' : '' }} onClick={handleShow}><FaAngleDown size={13}/></a>
-          <a className='angle' style={{ display: showGuide ? '' : 'none' }} onClick={handleShow}><FaAngleUp size={13}/></a></span>
+        <span>Before we start, please take a look at the quick guideline!<a className='angle' style={{ display: showGuide ? 'none' : '' }} onClick={handleShow}><FaAngleDown size={13}/></a><a className='angle' style={{ display: showGuide ? '' : 'none' }} onClick={handleShow}><FaAngleUp size={13}/></a></span>
         <div id='guideline' style={{ display: showGuide ? '' : 'none' }}>
           <div id='guideline-content'>
-            <FaSpinner size={10}/> For now, it is only possible to search a word,
+            <FaSpinner className='spinner' size={10}/> For now, it is only possible to search a word,
          so if you try to search a particle verb or a sentence, it would not work.
             <br></br>
             <br></br>
-            <FaSpinner size={10}/> We would be very happy if you help us and other learners by reporting bugs by clicking on
+            <FaSpinner className='spinner' size={10}/> We would be very happy if you help us and other learners by reporting bugs by clicking on
         this sign <FaExclamationCircle size={10}/> that is located in the right-bottom corner of the player console.
             <br></br>
             <br></br>
-            <FaSpinner size={10}/> By bugs, we mean unmatching subtitles. Sometimes,
+            <FaSpinner className='spinner' size={10}/> By bugs, we mean unmatching subtitles. Sometimes,
         the piece of subtitle could be a paraphrased version of what is said rather than word by word captions.
         We would like to identify and remove those instances to provide you a better experience!
           </div>
         </div>
         <br></br>
         <br></br>
-        <a onClick={props.handleKörBara} id='kör-bara'>Nu kör vi! <FaHeadphones size={17}/></a>
+        <a onClick={props.handleKörBara} style={{ display: showGuide ? 'none' : '' }} id='kör-bara'>Nu kör vi! <FaHeadphones size={17}/></a>
+        <div className='complete'></div>
       </div>
     </div>
   )

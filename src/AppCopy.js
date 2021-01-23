@@ -11,6 +11,7 @@ import Player from './components/Player'
 import Subtitle from './components/Subtitle'
 import Footer from './components/Footer'
 import AdminBar from './components/AdminBar'
+import axios from 'axios'
 
 const AppCopy = () => {
   const [subtitles, setSubtitles] = useState([])
@@ -60,6 +61,8 @@ const AppCopy = () => {
   //iPad 768x1024
   //iPad Pro 1024x1366
 
+
+
   useEffect(() => {
     subtitleService
       .getAll()
@@ -67,6 +70,7 @@ const AppCopy = () => {
         setSubtitles(subtitles)
       })
   },[])
+
 
   useEffect(() => {
     if(window.innerWidth < 415){

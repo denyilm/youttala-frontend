@@ -1,4 +1,5 @@
-﻿/* eslint-disable no-unused-vars */
+﻿/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { FaCopy } from 'react-icons/fa'
 import { FaEye } from 'react-icons/fa'
@@ -40,15 +41,26 @@ const Subtitle = ({ shownSubtitles, shownSubtitlesArr, showSubtitle, handleShow,
     </div>
   )
 
+  const copy = (event) => {
+    event.preventDefault()
+    var copyText = document.getElementById('shownSubtitles').innerText
+
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText).then(clipText => copyText += clipText)
+
+    /* Alert the copied text */
+    //alert('Copied the text: ' + copyText.value)
+  }
+
   const afterSearchXd = () => (
     <div>
       <div className="subtitle" style={showWhenVisible}>
         <div className="subtitle-buttons">
-          <button style ={{ display: 'none' }} className="button"><FaCopy size= {13}/></button>
+          <button title='copy the search result' className="button" onClick={copy}><FaCopy size= {13}/></button>
           <button className="button" title='hide the search result' onClick={handleHide}><FaEye size={13}/></button>
         </div>
-        <div className="subtitle-subtitle">
-          <p className="paragraph">
+        <div className="subtitle-subtitle" >
+          <p className="paragraph" id="shownSubtitles">
             {shownSubtitlesArr.map( (word, i=0) =>
               <span
                 style={{ color: regex.test(word) ? 'red' : 'black' }}

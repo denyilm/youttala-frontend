@@ -67,9 +67,10 @@ function buildLink(videoID, time){
 }
 
 
-function buildYouTubeLinkArray(query, idArr, database){
-  let word = query
-  let puncReg = /[.,"'?!;:]*/
+//function buildYouTubeLinkArray(query, idArr, database){
+//let word = query
+//let puncReg = /[.,"'?!;:]*/
+/*
   let startReg = /^/
   let endReg = /$/
   let regex = new RegExp(startReg.source +
@@ -116,7 +117,136 @@ function buildYouTubeLinkArray(query, idArr, database){
   })
   return shuffle(theList)
 }
+*/
+
+//getSubtitleBetweenTwoStamps starts
+function getSubtitleBetweenTwoStamps(wholeText, firstTimeIndex, secondTimeIndex) {
+  let subtitleBetweenTwoStamps = wholeText.slice(firstTimeIndex + 1 , secondTimeIndex)
+  //console.log(subtitleBetweenTwoStamps)
+  let returnThis = subtitleBetweenTwoStamps.reduce(function( sub, line) {
+    return sub + line + '\n'
+  }, '' )
+  return returnThis.split('\n').slice(0, -1).join('\n')
+}
+//getSubtitleBetweenTwoStamps starts
+
+//Must return the text between two time stamps ( which includes -->) and the time difference between the two
+//tillTheNextStamp starts
+function tillTheNextStamp(firstTime, firstTimeIndex, wholeText) {
+  var hour = ''
+  var minutes = ''
+  var seconds = ''
+  //var nextTimeStamp
+  var secondTimeIndex
+  var textBetweenTwoStamps
+
+  //console.log('firstTime', firstTime)
+  //console.log('firstTimeIndex', firstTimeIndex)
+
+  //console.log('firstTime:', firstTime)
+  //console.log('firstTimeIndex:', firstTimeIndex)
+
+
+  for(let i = firstTimeIndex + 1 ; i < wholeText.length - 1 ; i++){
+    if(wholeText[i].includes('-->') || i === wholeText.length - 1  ){
+      //nextTimeStamp = wholeText[i]
+      //console.log(seconds);
+      secondTimeIndex = i
+      //console.log('secondTimeIndex:', secondTimeIndex)
+      break
+    }
+  }
+
+
+
+  //console.log(nextTimeStamp)
+  //For the time difference
+  let amk = wholeText[firstTimeIndex]
+  let timeStamp = amk.split(' --> ')
+  //console.log(timeStamp)
+  let subtitleEndHour = timeStamp[1].substring(0,2)
+  let subtitleEndMinutes = timeStamp[1].substring(3,5)
+  let subtitleEndSeconds = timeStamp[1].substring(6,8)
+  let secondTime = convertArrayTimeIntoSeconds([subtitleEndHour, subtitleEndMinutes, subtitleEndSeconds])
+
+  let difference = secondTime - firstTime
+  //console.log(difference)
+
+  textBetweenTwoStamps = getSubtitleBetweenTwoStamps(wholeText, firstTimeIndex, secondTimeIndex)
+  //console.log(textBetweenTwoStamps)
+  return { 'timeDifference': difference, 'text': textBetweenTwoStamps }
+  //'nextTimeStamp': nextTimeStamp }
+}
+//tillTheNextStamp ends
+
+
+
+//S-buildYouTubeLinkArray
+function buildYouTubeLinkArray(query, idArr, database){
+  let word = query
+  let puncReg = /[.,"'?!;:]*/
+  let startReg = /^/
+  let endReg = /$/
+  let regex = new RegExp(startReg.source +
+        puncReg.source +
+        word +
+        puncReg.source +
+        endReg.source , 'i' )
+
+  //copy this into the global youtube link array
+  let theList = []
+  let copyIdArr = shuffle(idArr)
+
+  //idArr.forEach(function(id){
+  for(let index = 0 ; index < idArr.length - 1 ; index++){
+    let id = copyIdArr[index]
+    let wholeText = database.filter( subtitle => subtitle.videoId === id )[0].text
+    let l = wholeText.length
+
+    for(let i = 0; i < l - 1 ; i++){
+      let time
+      let timeStamp
+      let firstTimeIndex
+      let uTubeLink = ''
+      let wordArr = wholeText[i].split(' ')
+
+      wordArr.forEach(function(ord){
+        if(regex.test(ord)){
+          time = findTimeInVideo(i,wholeText).time
+          timeStamp = findTimeInVideo(i, wholeText).timeStamp
+          firstTimeIndex = findTimeInVideo(i, wholeText).firstTimeIndex
+          uTubeLink = buildLink(id,time)
+          theList.push({
+            'youtubeLink': uTubeLink,
+            'videoId': id,
+            'time': time,
+            'timeStamp': timeStamp,
+            'firstTimeIndex': firstTimeIndex,
+            'nextTimeStamp': findNextTime(firstTimeIndex, wholeText).nextTimeStamp,
+            'secondTimeIndex': findNextTime(firstTimeIndex, wholeText).secondTimeIndex,
+            'lineIndex': i,
+            //'wholeText': wholeText,
+            'shownSubtitles': tillTheNextStamp(time, firstTimeIndex, wholeText).text,
+            'timeDifference': tillTheNextStamp(time, firstTimeIndex, wholeText).timeDifference,
+            'lineText': wholeText[i]
+          })
+        }
+      })
+
+    }
+    if(theList.length > 1000){
+      break
+    }
+  //})
+  }
+
+
+  return shuffle(theList)
+}
+//E-buildYouTubeLinkArray
+
 
 
 export default buildYouTubeLinkArray
+//module.exports = buildYouTubeLinkArray
 

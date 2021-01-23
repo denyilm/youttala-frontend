@@ -4,7 +4,7 @@ import React from 'react'
 const Header = (props) => {
   return (
     <div className="main-header">
-      <a href="/" className="brand-logo">
+      <a onClick={props.logo} className="brand-logo">
         <div className="brand-logo-name">youttala</div>
       </a>
       <div className="main-nav">

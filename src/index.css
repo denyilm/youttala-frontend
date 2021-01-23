@@ -46,6 +46,10 @@ h1 {
   color: inherit;
 }
 
+.brand-logo:hover{
+  cursor: pointer;
+}
+
 .brand-logo-name{
   margin-left: 2em;
 }
@@ -172,8 +176,32 @@ padding-right: 2rem;
   font-size: 10px;
 }
 
+.main-container {
+  align-items: center;
+  text-align: center;
+  width: 680px;
+  margin: 0 auto;
+  margin-top: 35px;
+  margin-bottom: 23px;
+  display: flex;
+  flex-direction: column;
+  flex: 2 2;
+  width: 680px;
+  background: linear-gradient(0deg, rgba(234,250,255,1) 7%, rgba(160,207,250,1) 100%);
+}
 
 .container {
+  align-items: center;
+  text-align: center;
+  width: 680px;
+  height: calc(100vh - 58px);
+  margin: 0 auto;
+  margin-top: 35px;
+  background: linear-gradient(0deg, rgba(234,250,255,1) 7%, rgba(160,207,250,1) 100%);
+}
+
+
+.about-container-class{
   align-items: center;
   text-align: center;
   background: linear-gradient(0deg, rgba(234,250,255,1) 7%, rgba(160,207,250,1) 100%);
@@ -182,8 +210,6 @@ padding-right: 2rem;
   margin: 0 auto;
   margin-top: 35px;
 }
-
-
 
 .form {
   justify-content: space-around;
@@ -418,13 +444,22 @@ padding-right: 2rem;
   background-color: #FFF3B0;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 
 #coming-soon{
+  font-size: 15px;
+}
+
+#coming-soon-big{
   font-size: 23px;
+}
+
+#coming-soon a{
+  color: black;
 }
 
 #main-container-about{
@@ -545,7 +580,7 @@ iPhone 6/7/8 Plus
 iPhone 5/SE/6/7/8
 */
 
-@media (max-width: 414px){
+@media (max-width: 414px) {
   .container{
     width: 320px;
   }
@@ -575,12 +610,6 @@ iPhone 5/SE/6/7/8
     font-size: 14px;
   }
 
-  #about-container{
-    margin-top: 40px;
-    font-size: 14px;
-    width: 95%;
-  }
-
   #about-description{
     font-size: 10px;
   }
@@ -599,13 +628,100 @@ iPhone 5/SE/6/7/8
 
 }
 
-@media (max-height: 600px) {
-  #about-container {
-    height: auto;
-  }
+
+@media (max-height: 600px) and (min-width: 668px) {
 
   .container{
     height: auto;
     padding-bottom: 31px;
   }
+
+  .complete{
+    height: 150px;
+  }
+}
+
+
+.loading {
+  background-color: #FFF3B0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  text-align: center;
+  -webkit-animation: rotating 3s linear infinite;
+  -moz-animation: rotating 3s linear infinite;
+  -ms-animation: rotating 3s linear infinite;
+  -o-animation: rotating 3s linear infinite;
+  animation: rotating 3s linear infinite;
+}
+
+/*
+#d8d8d8;
+#FFF3B0;
+*/
+
+.progress {
+	background-color: #e0dede;
+  position: relative;
+  margin: 5px;
+	height: 2px;
+	width: 80px;
+}
+
+/*
+.progress-done {
+	background: black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 0;
+	opacity: 0;
+	transition: 1s ease 0.3s;
+}
+*/
+
+.progress-done {
+	background: black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 0;
+  opacity: 1;
+  transition: 4s ease 0.3s;
 }
