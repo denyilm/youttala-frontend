@@ -190,7 +190,7 @@ const App = () => {
       //iPhone 6/7/8
       setWidth('368px')
       setHeight('207px')
-    } else if(window.innerWidth < 500 && window.innerWidth > 415) {
+    } else if(window.innerWidth < 501 && window.innerWidth > 415) {
       //smaller screen and iPhone Plus
       setWidth('368px')
       setHeight('207px')
