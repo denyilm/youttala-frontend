@@ -1,10 +1,13 @@
 ﻿/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
-//const baseUrl = 'http://localhost:3001/subtitles'
-const baseUrl = '/api/subtitles'
+//Enable 1. baseUrl if the frontend is connected to the backend
+//1.
+//const baseUrl = 'http://localhost:3011'
+//2.
+const baseUrl = '/api'
 // eslint-disable-next-line linebreak-style
-const aboutUrl = '/api/about'
+//const aboutUrl = '/api/about'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -12,32 +15,45 @@ const getAll = () => {
 }
 
 const getAbout = () => {
-  const url = `${baseUrl}/about`
+  const url = '/api/about'
   const request = axios.get(url)
   return request.then(response => response.data)
 }
 
-const getOne = async(videoId) => {
-  const url = `${baseUrl}/${videoId}`
+const getCollection = (collection) => {
+  const url = `${baseUrl}/${collection}`
+  const request = axios.get(url)
+  return request.then(response => response.data)
+}
+
+const getOneSubtitle = async(videoId) => {
+  const url = `${baseUrl}/subtitles/${videoId}`
   const response = await axios.get(url)
   return response.data
 }
 
-const getResults = async(query) => {
-  const url = `${baseUrl}/results/${query}`
-  console.log(url)
+const getSubtitleResults = async(query) => {
+  const url = `${baseUrl}/subtitles/results/${query}`
+  console.log('First query subtitles')
+  const response = await axios.get(url)
+  return response.data
+}
+
+const getWordResults = async(query) => {
+  const url = `${baseUrl}/words/results/${query}`
+  console.log('First query words')
   const response = await axios.get(url)
   return response.data
 }
 
 const reportBug = async(subtitleToBeModified) => {
-  const url = `${baseUrl}/${subtitleToBeModified.videoId}`
+  const url = `${baseUrl}/subtitles/${subtitleToBeModified.videoId}`
   const response = await axios.put(url, subtitleToBeModified)
   return response.data
 }
 
 const deleteBuggyLines = async(subtitleToBeModified) => {
-  const url = `${baseUrl}/${subtitleToBeModified.id}`
+  const url = `${baseUrl}/subtitles/${subtitleToBeModified.id}`
   const response = await axios.put(url, subtitleToBeModified)
   return response.data
 }
@@ -45,8 +61,10 @@ const deleteBuggyLines = async(subtitleToBeModified) => {
 export default {
   getAll,
   getAbout,
-  getOne,
-  getResults,
+  getCollection,
+  getOneSubtitle,
+  getSubtitleResults,
+  getWordResults,
   reportBug,
   deleteBuggyLines
 }

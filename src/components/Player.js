@@ -15,7 +15,7 @@ const Player = (props) => {
   return (
     <div className='player'>
       <div className="video">
-        <YouTube videoId={props.videoId} opts={props.opts} onPlay={props.onPlay} ></YouTube>
+        <YouTube videoId={props.videoId} opts={props.opts} onPlay={props.onPlay} onPause={props.onPause}></YouTube>
       </div>
       <div className="player-bar">
         <div className="empty">
@@ -35,8 +35,7 @@ const Player = (props) => {
         <div className="extras">
           <span style={showWhenVisible}> {props.videoIndex} of {props.length}</span>
           <span style={showWhenNotVisible}></span>
-          <button style={showWhenVisible} className="button" id='bug-button' title='report a bug' onClick={props.handleBug}><FaExclamationCircle size= {13}/></button>
-          <span style={showWhenNotVisible}></span>
+          <button className="button" id='bug-button' title='report a bug' onClick={props.handleBug}><FaExclamationCircle size= {13}/></button>
         </div>
       </div>
     </div>

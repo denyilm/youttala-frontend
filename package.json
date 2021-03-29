@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.1",
     "react": "^17.0.1",
+    "react-country-flag": "^2.3.0",
     "react-dom": "^17.0.1",
     "react-ga": "^3.3.0",
     "react-icons": "^4.1.0",
@@ -23,9 +24,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server -p3001 --watch db.json"
+    "server": "json-server -p3011 --watch db.json"
   },
-  "proxy": "http://localhost:3002",
+  "proxy": "http://localhost:3011",
   "eslintConfig": {
     "extends": [
       "react-app",

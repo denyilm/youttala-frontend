@@ -1,4 +1,5 @@
-﻿/* eslint-disable linebreak-style */
+﻿/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { FaHeadphones } from 'react-icons/fa'
@@ -14,42 +15,34 @@ const About = (props) => {
 
 
   return (
-    <div id='about-container'>
-      <h1 id='about-title'>Hej!</h1>
+    <div id='main-container'>
+      <div className='brand-wrapper-in-other-pages'>
+        <div id='brand-container' className='just-button' onClick={props.logo}>
+          <span id='brand-span'>youttala</span>
+        </div>
+      </div>
+      <br></br>
+      <br></br>
       <div id='about-description'>
         Welcome to youttala!
         <br></br>
         <br></br>
-        youttala is a web application where Swedish learners can instantly learn how
-        Swedish words are actually pronounced by watching YouTube!
-        In youttala, you can hear the pronunciation of a word from real Swedish speakers in real use cases!
-        Just type the word you want to hear and search.
+        - youttala is a web application where you can instantly learn how
+        Swedish words are pronounced and used in the context by watching YouTube.
+        Just type the word you want to hear and search!
         <br></br>
         <br></br>
-         We hope that youttala would be a useful tool and wish you good luck in the learning journey!
+        - There is also an embedded lexicon in the app that will show the English translations, the forms, the definition and the synonyms of the word you searched for!
         <br></br>
         <br></br>
-        <span>Before we start, please take a look at the quick guideline!<a className='angle' style={{ display: showGuide ? 'none' : '' }} onClick={handleShow}><FaAngleDown size={13}/></a><a className='angle' style={{ display: showGuide ? '' : 'none' }} onClick={handleShow}><FaAngleUp size={13}/></a></span>
-        <div id='guideline' style={{ display: showGuide ? '' : 'none' }}>
-          <div id='guideline-content'>
-            <FaSpinner className='spinner' size={10}/> For now, it is only possible to search a word,
-         so if you try to search a particle verb or a sentence, it would not work.
-            <br></br>
-            <br></br>
-            <FaSpinner className='spinner' size={10}/> We would be very happy if you help us and other learners by reporting bugs by clicking on
-        this sign <FaExclamationCircle size={10}/> that is located in the right-bottom corner of the player console.
-            <br></br>
-            <br></br>
-            <FaSpinner className='spinner' size={10}/> By bugs, we mean unmatching subtitles. Sometimes,
-        the piece of subtitle could be a paraphrased version of what is said rather than word by word captions.
-        We would like to identify and remove those instances to provide you a better experience!
-          </div>
-        </div>
+        - Moreover, you can click on a word in the subtitle to get the same type of information in a tiny format! The video will be paused when you click on a word. Click again on the word to play the video!
         <br></br>
         <br></br>
-        <a onClick={props.handleKörBara} style={{ display: showGuide ? 'none' : '' }} id='kör-bara'>Nu kör vi! <FaHeadphones size={17}/></a>
-        <div className='complete'></div>
+        - The lexicon is downloaded from <a href='http://folkets-lexikon.csc.kth.se/folkets/folkets.en.html' target='_blank' rel="noreferrer" title="Visit The People's Dictionary">The People's Dictionary/Folkets lexikon</a> and used under the <a href='https://creativecommons.org/licenses/by/2.0/' target='_blank' rel="noreferrer" title='Visit Creative Commons to access the license'>Distributed Creative Commons Attribution-Share Alike 2.5 Generic license.</a>
+        <br></br>
+        <br></br>
       </div>
+      <div id='fill-container'></div>
     </div>
   )
 }
