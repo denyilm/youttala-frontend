@@ -300,6 +300,7 @@ const App = () => {
         //console.log(response)
         try {
           setApp(response.youTubeLinkList)
+          setActiveQuery(query)
           setResultsReady(true)
         } catch (error) {
           switch (query) {
@@ -343,7 +344,6 @@ const App = () => {
   //S-setApp
   const setApp = (youTubeLinkList) => {
     setHideVideo(false)
-    setActiveQuery(query)
     setIsReset(false)
     setYouTubeLinks(youTubeLinkList)
     setSynchedSubtitle(youTubeLinkList, 0)
