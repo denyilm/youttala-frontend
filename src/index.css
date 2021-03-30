@@ -235,6 +235,7 @@ S-SearchBar
 
 #search-button-wrapper {
     width: 80px;
+    background-color: black;
 }
 
 #search-button {

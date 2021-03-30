@@ -14,10 +14,18 @@ const playNextVideo = (
     setCurrentVideoId(videoId)
 
     let url = youTubeLinks[videoIndex+1].youtubeLink
+    /*
     if(youTubeLinks[videoIndex].youtubeLink === url){
       setYouTubeLink(url + ' ')
     }
-    setYouTubeLink(url)
+    */
+    if(url === youTubeLinks[videoIndex].youtubeLink + ' '){
+      setYouTubeLink(youTubeLinks[videoIndex+1].youtubeLink)
+    } else {
+      setYouTubeLink(youTubeLinks[videoIndex+1].youtubeLink + ' ')
+    }
+
+    //setYouTubeLink(url)
 
     let time = youTubeLinks[videoIndex+1].time
     setPlayingVideoTime(time)

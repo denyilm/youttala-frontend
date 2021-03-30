@@ -13,6 +13,7 @@ const Subtitle = ({
   handleShow,
   handleHide,
   query,
+  activeQuery,
   listLength,
   triggerSubmission,
   pickWord,
@@ -27,7 +28,7 @@ const Subtitle = ({
 
   const showWhenVisible = { display: showSubtitle ? '' : 'none' }
 
-  let word = query
+  let word = activeQuery
   let puncReg = /[.,"'?!;:]*/
   let startReg = /^/
   let endReg = /$/
@@ -37,55 +38,6 @@ const Subtitle = ({
         puncReg.source +
         endReg.source , 'i' )
 
-  /*
-  const afterSearchXd = () => (
-    <div>
-      <div className="subtitle" style={showWhenVisible}>
-        <div id="subtitle-empty">
-        </div>
-        <div className="subtitle-subtitle">
-          { listLength > 0 ?
-            <div className="paragraph">
-              {shownSubtitlesArr.map( (word, i=0) =>
-                <div key={word + i+1}>
-                  <span
-                    style={{
-                      color: regex.test(word) ? 'red' : 'black' ,
-                      background: word.length + '-' + word + i+1  === pickedWord ? '#FFB6C1' : ''
-                    }}
-                    key={word + i+1}
-                    id={word.length + '-' + word + i+1}
-                    onClick={pickWord}
-                    className='subtitle-word'>{`${word}`}
-                  </span>
-                </div>
-              )}
-            </div> :
-            <div className="paragraph">
-              {shownSubtitlesArr.map( (word, i=0) =>
-                <div key={word + i+1}>
-                  <span
-                    style={{
-                      color: regex.test(word) ? 'red' : 'black',
-                      cursor: word.includes("'") ? 'pointer' : '',
-                      textDecoration: word.includes("'") ? 'underline' : ''
-                    }}
-                    key={word + i+1}
-                    id={word}
-                    onClick={ word.includes("'") ? triggerSubmission : () => {}}
-                    className='subtitle-unlinked-word'>{`${word}`}
-                  </span>
-                </div>
-              )}
-            </div>
-          }
-        </div>
-        <div id="subtitle-empty">
-        </div>
-      </div>
-    </div>
-  )
-  */
 
   const subtitleContent = () => (
     <div id="main-subtitle-container" style={showWhenVisible}>

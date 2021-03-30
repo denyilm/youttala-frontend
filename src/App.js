@@ -38,8 +38,6 @@ import Footer from './components/Footer'
 import About from './components/About'
 import PlayerBarControls from './components/PlayerBarControls'
 import PrivacyPolicy from './components/PrivacyPolicy'
-import WelcomeText from './components/WelcomeText'
-import Features from './components/Features'
 
 const App = () => {
   const linkAtStart = 'https://www.youtube.com/watch?v=G_O0N3R-Lv8'
@@ -59,6 +57,7 @@ const App = () => {
   const [entries, setEntries] = useState([])
   const [wordlist, setWordlist] = useState([])
   const [query, setQuery] = useState('')
+  const [activeQuery, setActiveQuery] = useState('')
   const [youTubeLinks, setYouTubeLinks] = useState([])
   const [youTubeLink, setYouTubeLink] = useState('https://www.youtube.com/watch?v=G_O0N3R-Lv8')
   const [videoIndex, setVideoIndex] = useState(0)
@@ -231,6 +230,7 @@ const App = () => {
   const reset = () => {
     setHideVideo(true)
     setQuery('')
+    setActiveQuery('')
     setIsReset(true)
     setCurrentVideoId('G_O0N3R-Lv8')
     setYouTubeLink(resetLinkAtStart(linkAtStart, youTubeLink))
@@ -262,6 +262,7 @@ const App = () => {
     setShownSubtitlesArr(message.shownSubtitlesArr)
     setShowSubtitle(true)
     setMiniWordResults([])
+    setActiveQuery('')
   }
   //e-resetQuery
 
@@ -342,6 +343,7 @@ const App = () => {
   //S-setApp
   const setApp = (youTubeLinkList) => {
     setHideVideo(false)
+    setActiveQuery(query)
     setIsReset(false)
     setYouTubeLinks(youTubeLinkList)
     setSynchedSubtitle(youTubeLinkList, 0)
@@ -643,6 +645,7 @@ const App = () => {
           handleTenSecondsBackward={handleTenSecondsBackward}
           showStats={showStats}
           query={query}
+          activeQuery={activeQuery}
           videoIndex={videoIndex+1}
           length={youTubeLinks.length}
           handleBug={() => handleBug(currentVideoId)}
@@ -657,6 +660,7 @@ const App = () => {
             handleShow={handleShow}
             handleHide={handleHide}
             query={query}
+            activeQuery={activeQuery}
             types={miniWordTypes}
             pickMe={selectMiniType}
             pickMeaning={selectMiniMeaning}
@@ -674,6 +678,7 @@ const App = () => {
             handleShow={handleShow}
             handleHide={handleHide}
             query={query}
+            activeQuery={activeQuery}
             pickWord={selectWord}
             listLength={youTubeLinks.length}
             triggerSubmission={triggerSubmission}

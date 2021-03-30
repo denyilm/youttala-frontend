@@ -29,7 +29,7 @@ const PlayerBarControls = (props) => {
         </div>
       </div>
       <div id="extras-player-bar">
-        <span id='stats-text' style={showWhenVisible}><strong>{props.query}</strong> / {props.videoIndex} of {props.length} </span>
+        <span id='stats-text' style={showWhenVisible}><strong>{props.activeQuery}</strong> / {props.videoIndex} of {props.length} </span>
         <span style={showWhenNotVisible}></span>
         <span className="just-button" id='bug-button' style={showWhenVisible} title='report a bug' onClick={props.handleBug}><FaExclamationCircle id='bug-icon' /></span>
       </div>

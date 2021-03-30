@@ -12,6 +12,7 @@ const SubtitleMiniLex = ({
   handleShow,
   handleHide,
   query,
+  activeQuery,
   pickWord,
   types,
   length_arr,
@@ -26,7 +27,7 @@ const SubtitleMiniLex = ({
 
   const showWhenVisible = { display: showSubtitle ? '' : 'none' }
 
-  let word = query
+  let word = activeQuery
   let puncReg = /[.,"'?!;:]*/
   let startReg = /^/
   let endReg = /$/
@@ -35,56 +36,6 @@ const SubtitleMiniLex = ({
         word +
         puncReg.source +
         endReg.source , 'i' )
-
-  /*
-  const afterSearchXd = () => (
-    <div>
-      <div className="subtitle" style={showWhenVisible}>
-        <div id="subtitle-empty">
-
-        </div>
-        <div className="subtitle-subtitle">
-          <div className="paragraph">
-            {shownSubtitlesArr.map( (word, i=0) =>
-              <div key={word + i+1}>
-                <span
-                  style={{
-                    color: regex.test(word) ? 'red' : 'black' ,
-                    background: word.length + '-' + word + i+1  === pickedWord ? 'rgb(224, 241, 247)' : ''
-                  }}
-                  key={word + i+1}
-                  value={word+i+1}
-                  id={word.length + '-' + word + i+1}
-                  onClick={pickWord}
-                  className='subtitle-word'>{`${word}`}
-                </span>
-                {
-                  length_arr > 0 ?
-                    <MiniLex
-                      word={word}
-                      pickedWord={pickedWord}
-                      lexId={word.length + '-' + word + i+1}
-                      types={types}
-                      length_arr={length_arr}
-                      meaning={meaning}
-                      pickedType={pickedType}
-                      index={index}
-                      pickMe={pickMe}
-                      pickMeaning={pickMeaning}
-                    /> :
-                    <span style={{ display: 'none' }}></span>
-                }
-              </div>
-            )}
-          </div>
-        </div>
-        <div id="subtitle-empty">
-
-        </div>
-      </div>
-    </div>
-  )
-  */
 
   const subtitleContent = () => (
     <div id="main-subtitle-container" style={showWhenVisible}>
@@ -133,7 +84,6 @@ const SubtitleMiniLex = ({
       </div>
     </div>
   )
-
 
   return (
     <div>
