@@ -8,6 +8,16 @@ https://www.youttala.com
 
 youttala-frontend is a react-app. 
 
+Link to youttala-frontend github repo:
+
+https://github.com/denyilm/youttala-frontend
+
+Link to youttala-frontend docker hub repo: 
+
+https://hub.docker.com/repository/docker/denyilmaz/youttala-frontend
+
+# Is youttala-backend running?
+
 Make sure that youttala-backend is running on http://localhost:3002/.
 
 Link to youttala-backend github repo:
