@@ -10,6 +10,14 @@ youttala-frontend is a react-app.
 
 Make sure that youttala-backend is running on http://localhost:3002/.
 
+Link to youttala-backend github repo:
+
+https://github.com/denyilm/youttala-backend
+
+Link to youttala-backend docker hub repo:
+
+https://hub.docker.com/repository/docker/denyilmaz/youttala-backend
+
 # How to run youttala-frontend on a Docker container
 
 1-You need to have Docker downloaded on your machine to run this app with docker.
