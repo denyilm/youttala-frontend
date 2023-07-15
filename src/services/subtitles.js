@@ -2,10 +2,11 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
 //Enable 1. baseUrl if the frontend is connected to the backend
+// Enable 2. for production
 //1.
-const baseUrl = 'http://localhost:3002/api'
+// const baseUrl = 'http://localhost:3002/api'
 //2.
-//const baseUrl = '/api'
+const baseUrl = '/api'
 // eslint-disable-next-line linebreak-style
 //const aboutUrl = '/api/about'
 
