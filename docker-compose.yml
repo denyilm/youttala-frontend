@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    image: youttala_frontend:latest
+    container_name: youttala_frontend
+    ports:
+      - "3030:3030"
+    environment:
+      - "REACT_APP_BACKEND_URL=http://localhost:3002"
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+
+# https://devopswithdocker.com/part2/ Containers in development
+volumes:
+  node_modules:

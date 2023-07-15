@@ -36,7 +36,6 @@ Please read the instructions to download Docker:
 
 https://www.docker.com/products/docker-desktop
 
-
 2-Run the following command on your terminal
 
 docker run -p 3030:3030 denyilmaz/youttala-frontend
